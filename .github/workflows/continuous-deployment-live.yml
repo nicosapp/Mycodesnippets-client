@@ -1,0 +1,46 @@
+name: Continuous Deployment Live
+
+on:
+  # push:
+  #   branches:
+  #     - master
+  workflow_dispatch:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: SSH Create client dir
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.REMOTE_TARGET_HOME }}
+            rm -rf ./client
+            mkdir -p ./client
+          host: ${{ secrets.REMOTE_HOST }}
+          user: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+      - name: SSH Deploy App
+        uses: easingthemes/ssh-deploy@v2.1.1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete'
+          SOURCE: './'
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET_HOME }}client
+      - name: SSH Install Dep
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.REMOTE_TARGET_HOME }}/client
+            npm install
+            npm run generate
+            mkdir -p ${{ secrets.REMOTE_TARGET_WWW }}client/
+            cp -r ./dist/* ${{ secrets.REMOTE_TARGET_WWW }}client/
+          host: ${{ secrets.REMOTE_HOST }}
+          user: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}

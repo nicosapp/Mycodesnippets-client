@@ -114,3 +114,5 @@ REMOTE_HOST : mycodesnippets.tech
 REMOTE_USER : webmaster.mycodesnippets.tech
 REMOTE_TARGET_WWW : /var/www/mycodesnippets.tech/web/
 REMOTE_TARGET_HOME : /var/www/mycodesnippets.tech/home/webmaster.mycodesnippets.tech/
+
++ creer .env.client file
