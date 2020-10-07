@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-bottom-navigation :value="value" grow horizontal app color="primary">
-      <v-btn nuxt to="/" @click="value = 3">
+      <v-btn nuxt to="/" @click="value = 1">
         <span>Home</span>
 
         <v-icon>mdi-home</v-icon>
@@ -43,16 +43,12 @@ export default {
     return {
       value: '1',
       sheet: false,
-      tiles: [
-        { icon: 'mdi-history', title: 'Snippets' },
-        { icon: 'mdi-map-marker', title: 'Tutorial' },
-      ],
     }
   },
 
   methods: {
     async createSnippet() {
-      const snippet = await this.$axios.$post('snippets')
+      const snippet = await this.$axios.$post('api/snippets')
       this.value = 2
       this.$router.push({
         name: 'snippets-id-edit',

@@ -1,6 +1,13 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6"> HELLO </v-col>
+    <v-col cols="12" sm="8" md="6">
+      HELLO
+      {{ $auth.user }}
+      <template v-if="$auth.user"><SignOutButton /></template>
+      <template v-else
+        ><nuxt-link to="/auth/signin">Sign in</nuxt-link></template
+      >
+    </v-col>
   </v-row>
 </template>
 

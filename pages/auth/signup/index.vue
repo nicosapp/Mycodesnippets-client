@@ -9,17 +9,26 @@
           lazy-validation
           @submit.prevent="signup"
         >
+          <v-alert v-if="isError" dense dismissible border="left" type="error">
+            There is an error in the form!
+          </v-alert>
           <v-text-field
-            v-model="form.username"
-            :rules="[rules.required]"
+            id="name"
+            v-model="form.name"
+            name="name"
+            :rules="[rules.required, nameLength]"
             label="Username"
+            :error-messages="validation.name"
             required
             filled
           ></v-text-field>
           <v-text-field
+            id="email"
             v-model="form.email"
+            name="email"
             :rules="[rules.required, rules.emailValid]"
             label="E-mail"
+            :error-messages="validation.email"
             required
             filled
           ></v-text-field>
@@ -39,6 +48,7 @@
             label="Password"
             filled
             required
+            :error-messages="validation.password"
             @click:append="show = !show"
           ></v-text-field>
 
@@ -51,6 +61,7 @@
             label="Password confirmation"
             filled
             required
+            :error-messages="validation.password_confirmation"
             @click:append="show = !show"
           ></v-text-field>
 
@@ -67,7 +78,8 @@
           </div>
         </v-form>
         <div class="text-center">
-          Already an account ? <nuxt-link to="/signup">Sign up here</nuxt-link>
+          Already an account ?
+          <nuxt-link to="/auth/signup">Sign up here</nuxt-link>
         </div>
       </v-col>
     </v-row>
@@ -82,21 +94,44 @@ export default {
     return {
       valid: true,
       show: false,
+      nameLength: (v) => v.length >= 4 || 'Min 4 characters',
+      validation: {},
       form: {
-        username: '',
+        name: '',
         email: '',
         password: '',
         password_confirmation: '',
       },
     }
   },
+  computed: {
+    isError() {
+      return Object.keys(this.validation).length
+    },
+  },
   methods: {
     validate() {
+      this.validation = {}
       this.$refs.form.validate()
     },
-    signup() {
-      console.log(this.form)
+    async signup() {
+      try {
+        await this.$axios.$post('api/auth/signup', this.form)
+        this.$router.push({
+          name: 'auth-email',
+        })
+      } catch (e) {
+        if (e.response.status === 422) {
+          this.validation = e.response.data.errors
+        }
+      }
     },
+  },
+  middleware: ['notAuth'],
+  head() {
+    return {
+      title: 'Sign up',
+    }
   },
 }
 </script>

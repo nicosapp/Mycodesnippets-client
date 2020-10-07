@@ -18,7 +18,7 @@
 <script>
 export default {
   async asyncData({ app }) {
-    const response = await app.$axios.$get('snippets')
+    const response = await app.$axios.$get('api/snippets')
     return {
       snippets: response.data,
     }
@@ -28,5 +28,6 @@ export default {
       snippets: [],
     }
   },
+  middleware: ['verified'],
 }
 </script>

@@ -135,7 +135,7 @@ export default {
 
   mixins: [browseSnippet],
   async asyncData({ app, params }) {
-    const snippet = await app.$axios.$get(`snippets/${params.id}`)
+    const snippet = await app.$axios.$get(`api/snippets/${params.id}`)
 
     return {
       snippet: snippet.data,
@@ -155,7 +155,7 @@ export default {
     snippet: {
       deep: true,
       handler: _debounce(async function (snippet) {
-        await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
+        await this.$axios.$patch(`api/snippets/${this.snippet.uuid}`, {
           title: snippet.title,
           is_public: snippet.is_public,
         })
@@ -166,7 +166,7 @@ export default {
       deep: true,
 
       handler: _debounce(async function (step) {
-        await this.$axios.$patch(`steps/${this.currentStep.uuid}`, {
+        await this.$axios.$patch(`api/steps/${this.currentStep.uuid}`, {
           title: step.title,
           body: step.body,
         })
@@ -196,6 +196,7 @@ export default {
       this.goToStep(previousStep || this.firstStep)
     },
   },
+  middleware: ['verified'],
   head() {
     return {
       title: `Editing ${this.snippet.title}` || 'Untitled Snippet',

@@ -9,6 +9,9 @@
           lazy-validation
           @submit.prevent="signin"
         >
+          <v-alert v-if="isError" dense dismissible border="left" type="error">
+            There is an error in the form!
+          </v-alert>
           <v-text-field
             v-model="form.email"
             :rules="[rules.required, rules.emailValid]"
@@ -43,7 +46,7 @@
           </div>
         </v-form>
         <div class="text-center">
-          No account ? <nuxt-link to="/signup">Create one here</nuxt-link>
+          No account ? <nuxt-link to="/auth/signup">Create one here</nuxt-link>
         </div>
       </v-col>
     </v-row>
@@ -58,6 +61,7 @@ export default {
       email: '',
       password: '',
       show: false,
+      validation: {},
       rules: {
         required: (value) => !!value || 'Required.',
         emailValid: (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
@@ -68,12 +72,27 @@ export default {
       },
     }
   },
+  computed: {
+    isError() {
+      return Object.keys(this.validation).length
+    },
+  },
   methods: {
     validate() {
       this.$refs.form.validate()
     },
-    signin() {
-      console.log(this.form)
+    async signin() {
+      // console.log(this.form)
+      try {
+        await this.$axios.$get('/sanctum/csrf-cookie')
+        await this.$auth.loginWith('local', { data: this.form })
+        this.$router.push({ name: 'account' })
+        this.validation = {}
+      } catch (e) {
+        if (e.response.status === 422) {
+          this.validation = e.response.data.errors
+        }
+      }
     },
   },
 }

@@ -3,7 +3,7 @@
     <v-row justify-sm="center" justify-md="start">
       <v-col cols="12" md="8">
         <div class="mb-3 d-flex justify-space-between align-center">
-          <h2 class="primary--text flex-grow">Snippet title</h2>
+          <h2 class="primary--text flex-grow">{{ snippet.title }}</h2>
           <v-btn
             class="mx-2"
             icon
@@ -26,7 +26,7 @@
           <div class="font-weight-bold mr-3">
             {{ currentStepIndex + 1 }}/{{ steps.length }}.
           </div>
-          <h3 class="flex-grow-1">Step title</h3>
+          <h3 class="flex-grow-1">{{ currentStep.title }}</h3>
           <StepNavigationButton :step="nextStep">
             <v-icon dark>mdi-code-greater-than</v-icon>
           </StepNavigationButton>
@@ -54,7 +54,7 @@ export default {
   },
   mixins: [browseSnippet],
   async asyncData({ app, params }) {
-    const snippet = await app.$axios.$get(`snippets/${params.id}`)
+    const snippet = await app.$axios.$get(`api/snippets/${params.id}`)
 
     return {
       snippet: snippet.data,
