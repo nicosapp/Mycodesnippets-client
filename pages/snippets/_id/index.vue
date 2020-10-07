@@ -32,7 +32,7 @@
           </StepNavigationButton>
         </div>
         <div>
-          <StepMarkdown :value="'test'" />
+          <StepMarkdown :value="currentStep.body" />
         </div>
       </v-col>
       <v-col cols="12" md="4">

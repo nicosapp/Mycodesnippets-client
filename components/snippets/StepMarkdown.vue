@@ -40,4 +40,7 @@ export default {
   color: unset;
   background: unset;
 }
+.hljs code {
+  padding: 0;
+}
 </style>
