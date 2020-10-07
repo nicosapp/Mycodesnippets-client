@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-bottom-navigation :value="value" grow horizontal app color="primary">
-      <v-btn>
+      <v-btn nuxt to="/" @click="value = 3">
         <span>Home</span>
 
         <v-icon>mdi-home</v-icon>
@@ -13,7 +13,7 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
 
-      <v-btn>
+      <v-btn nuxt to="/search" @click="value = 3">
         <span>Search</span>
 
         <v-icon>mdi-magnify</v-icon>
@@ -53,7 +53,7 @@ export default {
   methods: {
     async createSnippet() {
       const snippet = await this.$axios.$post('snippets')
-
+      this.value = 2
       this.$router.push({
         name: 'snippets-id-edit',
         params: { id: snippet.data.uuid },
