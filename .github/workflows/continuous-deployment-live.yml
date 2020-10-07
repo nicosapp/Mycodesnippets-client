@@ -37,6 +37,7 @@ jobs:
         with:
           command: |
             cd ${{ secrets.REMOTE_TARGET_HOME }}/client
+            cp ../.env.client ./.env
             npm install
             npm run generate
             mkdir -p ${{ secrets.REMOTE_TARGET_WWW }}client/
