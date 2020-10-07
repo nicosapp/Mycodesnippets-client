@@ -2,12 +2,13 @@
   <v-container dark>
     <v-row justify="center">
       <v-col cols="12" md="8" lg="6">
+        <div class="text-center mb-8">Send me a link by email!</div>
         <v-form
           ref="form"
           v-model="valid"
           class="mb-4"
           lazy-validation
-          @submit.prevent="signin"
+          @submit.prevent="sendResetEmail"
         >
           <v-text-field
             v-model="form.email"
@@ -16,20 +17,7 @@
             required
             filled
           ></v-text-field>
-          <v-text-field
-            v-model="form.password"
-            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required]"
-            :type="show ? 'text' : 'password'"
-            name="password"
-            label="Password"
-            filled
-            required
-            @click:append="show = !show"
-          ></v-text-field>
-          <div class="d-flex justify-end">
-            <nuxt-link to="/password/email"> Forgot your password ? </nuxt-link>
-          </div>
+
           <div class="d-flex justify-center">
             <v-btn
               type="submit"
@@ -38,33 +26,24 @@
               class="mr-4"
               @click="validate"
             >
-              Sign in
+              Send email
             </v-btn>
           </div>
         </v-form>
-        <div class="text-center">
-          No account ? <nuxt-link to="/signup">Create one here</nuxt-link>
-        </div>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import validationRules from '@/mixins/form/validationRules'
 export default {
+  mixins: [validationRules],
   data() {
     return {
       valid: true,
-      email: '',
-      password: '',
-      show: false,
-      rules: {
-        required: (value) => !!value || 'Required.',
-        emailValid: (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      },
       form: {
         email: '',
-        password: '',
       },
     }
   },
@@ -72,7 +51,7 @@ export default {
     validate() {
       this.$refs.form.validate()
     },
-    signin() {
+    sendResetEmail() {
       console.log(this.form)
     },
   },

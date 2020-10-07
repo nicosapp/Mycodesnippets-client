@@ -7,8 +7,15 @@
           v-model="valid"
           class="mb-4"
           lazy-validation
-          @submit.prevent="signin"
+          @submit.prevent="signup"
         >
+          <v-text-field
+            v-model="form.username"
+            :rules="[rules.required]"
+            label="Username"
+            required
+            filled
+          ></v-text-field>
           <v-text-field
             v-model="form.email"
             :rules="[rules.required, rules.emailValid]"
@@ -19,7 +26,14 @@
           <v-text-field
             v-model="form.password"
             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required]"
+            :rules="[
+              rules.required,
+              rules.passwordLength,
+              rules.passwordLowerCase,
+              rules.passwordUpperCase,
+              rules.passwordSpecials,
+              rules.passwordNumbers,
+            ]"
             :type="show ? 'text' : 'password'"
             name="password"
             label="Password"
@@ -27,9 +41,19 @@
             required
             @click:append="show = !show"
           ></v-text-field>
-          <div class="d-flex justify-end">
-            <nuxt-link to="/password/email"> Forgot your password ? </nuxt-link>
-          </div>
+
+          <v-text-field
+            v-model="form.password_confirmation"
+            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[rules.required, rules.passwordMatch]"
+            :type="show ? 'text' : 'password'"
+            name="password_confirmation"
+            label="Password confirmation"
+            filled
+            required
+            @click:append="show = !show"
+          ></v-text-field>
+
           <div class="d-flex justify-center">
             <v-btn
               type="submit"
@@ -38,12 +62,12 @@
               class="mr-4"
               @click="validate"
             >
-              Sign in
+              Sign up
             </v-btn>
           </div>
         </v-form>
         <div class="text-center">
-          No account ? <nuxt-link to="/signup">Create one here</nuxt-link>
+          Already an account ? <nuxt-link to="/signup">Sign up here</nuxt-link>
         </div>
       </v-col>
     </v-row>
@@ -51,20 +75,18 @@
 </template>
 
 <script>
+import validationRules from '@/mixins/form/validationRules'
 export default {
+  mixins: [validationRules],
   data() {
     return {
       valid: true,
-      email: '',
-      password: '',
       show: false,
-      rules: {
-        required: (value) => !!value || 'Required.',
-        emailValid: (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-      },
       form: {
+        username: '',
         email: '',
         password: '',
+        password_confirmation: '',
       },
     }
   },
@@ -72,7 +94,7 @@ export default {
     validate() {
       this.$refs.form.validate()
     },
-    signin() {
+    signup() {
       console.log(this.form)
     },
   },

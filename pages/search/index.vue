@@ -6,7 +6,7 @@
           <li v-for="snippet in snippets" :key="snippet.uuid">
             <nuxt-link
               :to="{ name: 'snippets-id', params: { id: snippet.uuid } }"
-              >{{ snippet.title }}
+              >{{ snippet.title || 'Untitled snippet' }}
             </nuxt-link>
           </li>
         </ul>
