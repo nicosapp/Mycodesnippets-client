@@ -53,11 +53,11 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: '/login',
+            url: '/api/auth/signin',
             method: 'post',
           },
           logout: {
-            url: '/logout',
+            url: '/api/auth/signout',
             method: 'post',
           },
           user: {

@@ -95,5 +95,10 @@ export default {
       }
     },
   },
+  head() {
+    return {
+      title: 'Sign inex',
+    }
+  },
 }
 </script>

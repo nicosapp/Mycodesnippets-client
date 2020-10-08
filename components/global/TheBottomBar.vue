@@ -2,21 +2,28 @@
   <div>
     <v-bottom-navigation :value="value" grow horizontal app color="primary">
       <v-btn nuxt to="/" @click="value = 1">
-        <span>Home</span>
-
+        <span class="d-none d-md-inline">Home</span>
         <v-icon>mdi-home</v-icon>
       </v-btn>
 
-      <v-btn @click="createSnippet">
-        <span>Create</span>
+      <v-btn nuxt to="/search" @click="value = 2">
+        <span class="d-none d-md-inline">Search</span>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
 
+      <v-btn @click="createSnippet">
+        <span class="d-none d-md-inline">Create</span>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
 
-      <v-btn nuxt to="/search" @click="value = 3">
-        <span>Search</span>
+      <v-btn nuxt to="/" @click="value = 4">
+        <span class="d-none d-md-inline">Browse</span>
+        <v-icon>mdi-format-list-bulleted</v-icon>
+      </v-btn>
 
-        <v-icon>mdi-magnify</v-icon>
+      <v-btn nuxt to="/search" @click="value = 5">
+        <span class="d-none d-md-inline">Account</span>
+        <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </v-bottom-navigation>
     <!-- <v-bottom-sheet v-model="sheet">
@@ -49,7 +56,7 @@ export default {
   methods: {
     async createSnippet() {
       const snippet = await this.$axios.$post('api/snippets')
-      this.value = 2
+      this.value = 3
       this.$router.push({
         name: 'snippets-id-edit',
         params: { id: snippet.data.uuid },
