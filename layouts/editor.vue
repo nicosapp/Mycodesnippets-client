@@ -1,13 +1,14 @@
 <template>
   <v-app dark>
     <!-- <TheNavigationDrawerLeft /> -->
-    <TheAppBar />
+    <EditorAppBar />
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
     <TheBottomBar />
-    <!-- <TheNavigationDrawerRight :open="rightDrawer" /> -->
+    <EditorDrawerLeft />
+    <EditorDrawerRight />
   </v-app>
 </template>

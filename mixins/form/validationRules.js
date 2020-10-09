@@ -4,6 +4,7 @@ export default {
       rules: {
         required: (v) => !!v || 'Required.',
         emailValid: (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        onlyNumbers: (v) => /^\d+$/.test(v) || 'Should just contain numbers',
         passwordLength: (v) => v.length >= 8 || 'Min 8 characters',
         passwordSpecials: (v) =>
           /^(?=.*[!@#$%^&*])/.test(v) ||

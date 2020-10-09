@@ -1,14 +1,12 @@
 <template>
   <v-app dark>
-    <TheAppBar />
+    <TheAppBar page="account" />
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
     <TheBottomBar v-if="$auth.loggedIn" />
-    <TheDrawerLeft />
-    <!-- <TheDrawerRight :open="rightDrawer" /> -->
   </v-app>
 </template>
 

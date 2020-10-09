@@ -1,42 +1,8 @@
 <template>
-  <v-container dark>
-    <v-row justify-sm="center" justify-md="start">
-      <v-col cols="12" md="8">
+  <v-container dark class="pt-0">
+    <v-row class="pt-0" justify-sm="center" justify-md="start">
+      <v-col class="pt-0" cols="12" md="8">
         <v-form>
-          <div class="d-flex mb-4 align-center">
-            <v-btn
-              icon
-              nuxt
-              class="mx-2"
-              :to="{
-                name: 'snippets-id',
-                params: { id: snippet.uuid },
-              }"
-            >
-              <v-icon>mdi-close-box</v-icon>
-            </v-btn>
-            <v-text-field
-              v-model="snippet.title"
-              hide-details="auto"
-              height="5"
-              placeholder="Snippet title"
-              filled
-              clearable
-              class="flex-grow-1"
-              clear-icon="mdi-close-circle"
-            ></v-text-field>
-            <v-btn
-              icon
-              nuxt
-              class="mx-2"
-              :to="{
-                name: 'snippets-id',
-                params: { id: snippet.uuid },
-              }"
-            >
-              <v-icon>mdi-eye</v-icon>
-            </v-btn>
-          </div>
           <div
             class="mb-4 d-flex justify-space-between align-center grey--text --text-lighten 400"
           >
@@ -45,9 +11,6 @@
             <div v-else>Not saved yet</div>
           </div>
           <div class="d-flex align-center mb-4">
-            <StepNavigationButton :step="previousStep">
-              <v-icon dark>mdi-code-less-than</v-icon>
-            </StepNavigationButton>
             <div class="font-weight-bold mr-3">
               {{ currentStepIndex + 1 }}/{{ steps.length }}.
             </div>
@@ -60,11 +23,11 @@
               clearable
               clear-icon="mdi-close-circle"
             ></v-text-field>
-            <StepNavigationButton :step="nextStep">
-              <v-icon dark>mdi-code-greater-than</v-icon>
-            </StepNavigationButton>
           </div>
-          <div class="d-flex">
+          <div class="d-flex justify-space-between">
+            <v-btn icon @click.prevent="toggleDrawerLeft"
+              ><v-icon>mdi-cog</v-icon></v-btn
+            >
             <AddStepButton
               :snippet="snippet"
               :current-step="currentStep"
@@ -76,12 +39,37 @@
               :current-step="currentStep"
               @deleted="handleStepDeleted"
             />
+            <v-btn icon @click.prevent="toggleDrawerRight"
+              ><v-icon>mdi-format-list-text</v-icon></v-btn
+            >
           </div>
-          <v-tabs v-model="editorTab" center>
-            <v-tabs-slider></v-tabs-slider>
 
-            <v-tab href="#tab-editor"> editor</v-tab>
-            <v-tab href="#tab-preview"> preview</v-tab>
+          <v-tabs v-model="editorTab" centered>
+            <v-tabs-slider></v-tabs-slider>
+            <v-tab class="ma-0 pa-0" style="min-width: 10px">
+              <div
+                class="pa-1"
+                style="width: 100%; height: 100%"
+                @click.prevent.stop="() => {}"
+              >
+                <StepNavigationButton :step="previousStep">
+                  <v-icon>mdi-code-less-than</v-icon>
+                </StepNavigationButton>
+              </div>
+            </v-tab>
+            <v-tab href="#tab-editor">editor</v-tab>
+            <v-tab href="#tab-preview">preview</v-tab>
+            <v-tab class="ma-0 pa-0" style="min-width: 10px">
+              <div
+                class="pa-1"
+                style="width: 100%; height: 100%"
+                @click.prevent.stop="() => {}"
+              >
+                <StepNavigationButton :step="nextStep">
+                  <v-icon dark>mdi-code-greater-than</v-icon>
+                </StepNavigationButton>
+              </div>
+            </v-tab>
             <v-tabs-items v-model="editorTab" class="pt-2">
               <v-tab-item value="tab-editor">
                 <StepEditor v-model="currentStep.body" :step="currentStep" />
@@ -119,6 +107,8 @@ import { debounce as _debounce } from 'lodash'
 import moment from 'moment'
 
 import browseSnippet from '@/mixins/snippets/browseSnippet'
+import drawerRight from '@/mixins/navigation/drawerRight'
+import drawerLeft from '@/mixins/navigation/drawerLeft'
 import StepsList from './components/StepsList'
 import StepNavigationButton from './components/StepNavigationButton'
 import AddStepButton from './components/AddStepButton'
@@ -133,9 +123,9 @@ export default {
   },
   layout: 'editor',
 
-  mixins: [browseSnippet],
+  mixins: [browseSnippet, drawerRight, drawerLeft],
   async asyncData({ app, params }) {
-    const snippet = await app.$axios.$get(`api/snippets/${params.id}`)
+    const snippet = await app.$axios.$get(`snippets/${params.id}`)
 
     return {
       snippet: snippet.data,
@@ -146,7 +136,7 @@ export default {
     return {
       steps: [],
       snippet: null,
-      editorTab: null,
+      editorTab: 'tab-editor',
       lastSaved: null,
     }
   },
@@ -155,7 +145,7 @@ export default {
     snippet: {
       deep: true,
       handler: _debounce(async function (snippet) {
-        await this.$axios.$patch(`api/snippets/${this.snippet.uuid}`, {
+        await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
           title: snippet.title,
           is_public: snippet.is_public,
         })
@@ -166,7 +156,7 @@ export default {
       deep: true,
 
       handler: _debounce(async function (step) {
-        await this.$axios.$patch(`api/steps/${this.currentStep.uuid}`, {
+        await this.$axios.$patch(`steps/${this.currentStep.uuid}`, {
           title: step.title,
           body: step.body,
         })
@@ -175,6 +165,9 @@ export default {
     },
   },
   methods: {
+    test() {
+      console.log('test')
+    },
     touchLastSaved() {
       this.lastSaved = moment(moment.now()).format('HH:mm:ss')
     },

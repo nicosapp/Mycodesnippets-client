@@ -10,7 +10,7 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    titleTemplate: '%s - client',
+    titleTemplate: '%s - MyCodeSnippets',
     title: 'client',
     meta: [
       { charset: 'utf-8' },
@@ -53,15 +53,15 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: '/api/auth/signin',
+            url: '/auth/signin',
             method: 'post',
           },
           logout: {
-            url: '/api/auth/signout',
+            url: '/auth/signout',
             method: 'post',
           },
           user: {
-            url: '/api/user',
+            url: '/user',
             method: 'get',
             propertyName: 'data',
           },
@@ -81,6 +81,8 @@ export default {
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
+    // defaultAssets: false,
     theme: {
       dark: false,
       themes: {

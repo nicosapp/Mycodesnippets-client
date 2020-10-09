@@ -1,28 +1,35 @@
 <template>
   <div>
-    <v-bottom-navigation :value="value" grow horizontal app color="primary">
-      <v-btn nuxt to="/" @click="value = 1">
-        <span class="d-none d-md-inline">Home</span>
+    <v-bottom-navigation
+      v-model="active"
+      grow
+      app
+      class="bottomBar"
+      color="primary"
+      :min-width="0"
+    >
+      <v-btn value="home" @click="pushRoute('home', 'index')">
+        <div>Home</div>
         <v-icon>mdi-home</v-icon>
       </v-btn>
 
-      <v-btn nuxt to="/search" @click="value = 2">
-        <span class="d-none d-md-inline">Search</span>
+      <v-btn value="search" @click="pushRoute('search', 'search')">
+        <div>Search</div>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
-      <v-btn @click="createSnippet">
-        <span class="d-none d-md-inline">Create</span>
-        <v-icon>mdi-plus</v-icon>
+      <v-btn value="create" @click="createSnippet">
+        <div>Create</div>
+        <v-icon>mdi-plus-circle-outline</v-icon>
       </v-btn>
 
-      <v-btn nuxt to="/" @click="value = 4">
-        <span class="d-none d-md-inline">Browse</span>
-        <v-icon>mdi-format-list-bulleted</v-icon>
+      <v-btn value="dashboard" @click="pushRoute('dashboard', 'dashboard')">
+        <div>Dashboard</div>
+        <v-icon>mdi-view-dashboard-variant-outline</v-icon>
       </v-btn>
 
-      <v-btn nuxt to="/search" @click="value = 5">
-        <span class="d-none d-md-inline">Account</span>
+      <v-btn value="account" @click="pushRoute('account', 'account')">
+        <div>Account</div>
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </v-bottom-navigation>
@@ -45,18 +52,43 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   data() {
     return {
-      value: '1',
-      sheet: false,
+      value: 'home',
     }
+  },
+  computed: {
+    ...mapGetters({
+      activeValue: 'bottomBar/active',
+    }),
+    active: {
+      get() {
+        return this.activeValue
+      },
+      set(activeValue) {
+        this.setActive(activeValue)
+      },
+    },
   },
 
   methods: {
+    ...mapActions({
+      setActive: 'bottomBar/setActive',
+    }),
+
+    pushRoute(active, route) {
+      this.setActive(active)
+      this.$router.push({
+        name: route,
+      })
+    },
+
     async createSnippet() {
-      const snippet = await this.$axios.$post('api/snippets')
-      this.value = 3
+      const snippet = await this.$axios.$post('snippets')
+      this.setActive('create')
       this.$router.push({
         name: 'snippets-id-edit',
         params: { id: snippet.data.uuid },
@@ -65,3 +97,10 @@ export default {
   },
 }
 </script>
+
+<style scoped lang="scss">
+.v-btn {
+  min-width: 10px !important;
+  padding: 0 !important;
+}
+</style>

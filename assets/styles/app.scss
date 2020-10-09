@@ -1,3 +1,5 @@
+// @import url('https://fonts.googleapis.com/css? family=Comfortaa&display=swap');
+
 pre {
   word-break: break-all;
   white-space: pre-wrap;
@@ -5,5 +7,16 @@ pre {
 a {
   text-decoration: none;
 }
+.v-text-field--filled .v-input__slot {
+  border-radius: 0.4rem !important;
+  &::after,
+  &::before {
+    content: none !important;
+  }
+}
+
+// .v-application {
+//   font-family: Comfortaa, sans-serif !important;
+// }
 @import 'vendor/hljs.scss';
 @import 'codemirror/lib/codemirror.css';

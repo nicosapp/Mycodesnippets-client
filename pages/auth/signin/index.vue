@@ -30,11 +30,12 @@
             required
             @click:append="show = !show"
           ></v-text-field>
-          <div class="d-flex justify-end">
+          <div class="d-flex justify-end mb-8">
             <nuxt-link to="/password/email"> Forgot your password ? </nuxt-link>
           </div>
           <div class="d-flex justify-center">
             <v-btn
+              block
               type="submit"
               :disabled="!valid"
               color="primary"
@@ -46,7 +47,8 @@
           </div>
         </v-form>
         <div class="text-center">
-          No account ? <nuxt-link to="/auth/signup">Create one here</nuxt-link>
+          No account ?
+          <nuxt-link to="/auth/signup">Create one here</nuxt-link>
         </div>
       </v-col>
     </v-row>
@@ -84,7 +86,7 @@ export default {
     async signin() {
       // console.log(this.form)
       try {
-        await this.$axios.$get('/sanctum/csrf-cookie')
+        await this.$axios.$get('sanctum/csrf-cookie')
         await this.$auth.loginWith('local', { data: this.form })
         this.$router.push({ name: 'account' })
         this.validation = {}
@@ -97,7 +99,7 @@ export default {
   },
   head() {
     return {
-      title: 'Sign inex',
+      title: 'Sign in',
     }
   },
 }

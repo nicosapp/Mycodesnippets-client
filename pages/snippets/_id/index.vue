@@ -54,7 +54,7 @@ export default {
   },
   mixins: [browseSnippet],
   async asyncData({ app, params }) {
-    const snippet = await app.$axios.$get(`api/snippets/${params.id}`)
+    const snippet = await app.$axios.$get(`snippets/${params.id}`)
 
     return {
       snippet: snippet.data,

@@ -2,3 +2,11 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
+@import url('https://fonts.googleapis.com/css? family=Comfortaa&display=swap');
+
+// $body-font-family: 'Libre Baskerville';
+$body-font-family: 'Comfortaa';
+$title-font: 'Comfortaa';
+.v-application {
+  font-family: $body-font-family, sans-serif !important;
+}
