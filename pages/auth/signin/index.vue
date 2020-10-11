@@ -19,27 +19,36 @@
             required
             filled
           ></v-text-field>
-          <v-text-field
-            v-model="form.password"
-            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[rules.required]"
-            :type="show ? 'text' : 'password'"
-            name="password"
-            label="Password"
-            filled
-            required
-            @click:append="show = !show"
-          ></v-text-field>
-          <div class="d-flex justify-end mb-8">
-            <nuxt-link to="/password/email"> Forgot your password ? </nuxt-link>
+          <div style="position: relative" class="mb-4">
+            <v-text-field
+              v-model="form.password"
+              :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+              :rules="[rules.required]"
+              :type="show ? 'text' : 'password'"
+              name="password"
+              label="Password"
+              filled
+              required
+              @click:append="show = !show"
+            >
+            </v-text-field>
+            <div
+              class="d-flex justify-end"
+              style="position: absolute; bottom: 0; right: 0"
+            >
+              <nuxt-link to="/password/email">
+                Forgot your password ?
+              </nuxt-link>
+            </div>
           </div>
+
           <div class="d-flex justify-center">
             <v-btn
               block
               type="submit"
               :disabled="!valid"
               color="primary"
-              class="mr-4"
+              height="3rem"
               @click="validate"
             >
               Sign in
