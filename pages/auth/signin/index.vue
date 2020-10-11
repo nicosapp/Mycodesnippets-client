@@ -19,7 +19,7 @@
             required
             filled
           ></v-text-field>
-          <div style="position: relative" class="mb-4">
+          <div style="position: relative" class="mb-5">
             <v-text-field
               v-model="form.password"
               :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
