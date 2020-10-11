@@ -1,5 +1,11 @@
 <template>
-  <v-btn class="mx-2" icon color="primary" @click="addStep">
+  <v-btn
+    :disabled="!currentStep"
+    class="mx-2"
+    icon
+    color="primary"
+    @click="addStep"
+  >
     <v-icon dark> mdi-plus-box </v-icon>
   </v-btn>
 </template>
@@ -8,12 +14,14 @@
 export default {
   props: {
     snippet: {
-      required: true,
+      required: false,
       type: Object,
+      default: null,
     },
     currentStep: {
-      required: true,
+      required: false,
       type: Object,
+      default: null,
     },
   },
   methods: {

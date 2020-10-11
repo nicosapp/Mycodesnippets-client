@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import TheFooter from '@/components/global/TheFooter'
+import TheFooter from '@/components/layout/TheFooter'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {

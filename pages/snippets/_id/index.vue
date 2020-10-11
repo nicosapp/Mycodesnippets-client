@@ -11,6 +11,7 @@
             :to="{
               name: 'snippets-id-edit',
               params: { id: snippet.uuid },
+              query: { step: currentStep.uuid },
             }"
           >
             <v-icon dark> mdi-square-edit-outline </v-icon>

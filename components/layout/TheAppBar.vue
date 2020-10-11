@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import SignOutButton from '@/components/global/SignOutButton'
+import SignOutButton from '@/components/layout/SignOutButton'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
