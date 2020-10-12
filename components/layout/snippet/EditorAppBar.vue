@@ -1,7 +1,5 @@
 <template>
   <v-app-bar class="px-md-6" :height="72" :clipped-left="false" fixed app>
-    <!-- <v-app-bar-nav-icon @click.stop="toggleLeft" /> -->
-    <!-- <v-toolbar-title v-text="title" /> -->
     <v-btn icon @click.prevent="deleteSnippet">
       <v-icon>mdi-close-box</v-icon>
     </v-btn>

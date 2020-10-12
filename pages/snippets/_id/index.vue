@@ -2,33 +2,32 @@
   <v-container dark>
     <v-row justify-sm="center" justify-md="start">
       <v-col cols="12" md="8">
-        <div class="mb-3 d-flex justify-space-between align-center">
-          <h2 class="primary--text flex-grow">{{ snippet.title }}</h2>
+        <div class="mb-3">
           <v-btn
-            class="mx-2"
+            v-if="$vuetify.breakpoint.mobile"
+            style="float: right"
             icon
-            nuxt
-            :to="{
-              name: 'snippets-id-edit',
-              params: { id: snippet.uuid },
-              query: { step: currentStep.uuid },
-            }"
-          >
-            <v-icon dark> mdi-square-edit-outline </v-icon>
+            @click.prevent="toggleDrawerRight"
+            ><v-icon>mdi-format-list-text</v-icon>
           </v-btn>
+          <h2 class="primary--text flex-grow">{{ snippet.title }}</h2>
         </div>
         <div class="mb-3">
-          Created by <nuxt-link to="{}">Nicolas Izac</nuxt-link>
+          Created by
+          <nuxt-link :to="{ name: 'users-id', params: { id: author.uuid } }">
+            {{ author.name }}
+          </nuxt-link>
+          <v-spacer></v-spacer>
         </div>
         <div class="mb-3 d-flex justify-space-between align-center">
-          <StepNavigationButton :step="previousStep">
+          <StepNavigationButton :step="previousStep" class="mr-2">
             <v-icon dark>mdi-code-less-than</v-icon>
           </StepNavigationButton>
           <div class="font-weight-bold mr-3">
             {{ currentStepIndex + 1 }}/{{ steps.length }}.
           </div>
           <h3 class="flex-grow-1">{{ currentStep.title }}</h3>
-          <StepNavigationButton :step="nextStep">
+          <StepNavigationButton :step="nextStep" class="ml-2">
             <v-icon dark>mdi-code-greater-than</v-icon>
           </StepNavigationButton>
         </div>
@@ -36,15 +35,16 @@
           <StepMarkdown :value="currentStep.body" />
         </div>
       </v-col>
-      <v-col cols="12" md="4">
-        <StepsList :steps="orderedStepsAsc" :current-step="currentStep" />
+      <v-col v-if="!$vuetify.breakpoint.mobile" cols="12" md="4">
+        <StepsList />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import browseSnippet from '@/mixins/snippets/browseSnippet'
+import browseSnippet from '@/mixins/snippets/snippet'
+import drawerRight from '@/mixins/navigation/drawerRight'
 import StepsList from './edit/components/StepsList'
 import StepNavigationButton from './edit/components/StepNavigationButton'
 
@@ -53,20 +53,13 @@ export default {
     StepsList,
     StepNavigationButton,
   },
-  mixins: [browseSnippet],
-  async asyncData({ app, params }) {
-    const snippet = await app.$axios.$get(`snippets/${params.id}`)
-
-    return {
-      snippet: snippet.data,
-      steps: snippet.data.steps.data,
-    }
-  },
+  layout: 'snippetView',
+  mixins: [browseSnippet, drawerRight],
   data() {
-    return {
-      snippet: null,
-      steps: [],
-    }
+    return {}
+  },
+  mounted() {
+    this.getSnippet(this.$route.params.id)
   },
   head() {
     return {

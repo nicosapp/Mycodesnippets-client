@@ -10,7 +10,6 @@
           }
         : {}
     "
-    class="mx-2"
     :disabled="!step"
     icon
   >

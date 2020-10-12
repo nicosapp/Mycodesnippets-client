@@ -57,21 +57,32 @@
           <v-text-field
             id="phone_number"
             v-model="form.phone_number"
+            :rules="[rules.size(10, form.phone_number)]"
             name="phone_number"
             label="Phone number"
-            :rules="[rules.onlyNumbers]"
+            type="number"
             counter="10"
             :error-messages="validation.phone_number"
             filled
           ></v-text-field>
 
+          <v-textarea
+            id="description"
+            v-model="form.description"
+            :rules="[rules.max(400, form.description)]"
+            name="description"
+            counter="400"
+            filled
+            label="Description"
+            :error-messages="validation.description"
+          ></v-textarea>
           <div class="d-flex justify-center">
             <v-btn
               type="submit"
               :disabled="!validUserInfos"
               color="primary"
               class="mr-4"
-              @click="validate"
+              @click="validateUserInfos"
             >
               Update
             </v-btn>
@@ -79,7 +90,7 @@
         </v-form>
       </v-col>
       <v-col cols="12" md="6">
-        <h3 class="mb-4">Password administration</h3>
+        <h3 class="mb-4">Change password</h3>
         <v-form
           ref="formUserPassword"
           v-model="validUserPassword"
@@ -126,7 +137,7 @@
               :disabled="!validUserPassword"
               color="primary"
               class="mr-4"
-              @click="validate"
+              @click="validatePassword"
             >
               Modify
             </v-btn>
@@ -154,6 +165,7 @@ export default {
         firstname: this.$auth.user.firstname,
         lastname: this.$auth.user.lastname,
         phone_number: this.$auth.user.phone_number,
+        description: this.$auth.user.description,
         password: '',
         password_confirmation: '',
       },
@@ -165,20 +177,32 @@ export default {
     },
   },
   methods: {
-    validate() {
+    validateUserInfos() {
       this.validation = {}
       this.$refs.formUserInfos.validate()
+    },
+    validatePassword() {
       this.$refs.formUserPassword.validate()
     },
-    updatePassword() {},
+    async updatePassword() {
+      try {
+        await this.$axios.$patch(`users/${this.$auth.user.uuid}/password`, {
+          password: this.form.password,
+          password_confirmation: this.form.password_confirmation,
+        })
+        this.form.password = ''
+        this.form.password_confirmation = ''
+      } catch (e) {
+        if (e.response && e.response.status === 422) {
+          this.validation = e.response.data.errors
+        }
+      }
+    },
     async updateInfos() {
       try {
-        await this.$axios.$post('api/auth/signup', this.form)
-        this.$router.push({
-          name: 'auth-email',
-        })
+        await this.$axios.$patch(`users/${this.$auth.user.uuid}`, this.form)
       } catch (e) {
-        if (e.response.status === 422) {
+        if (e.response && e.response.status === 422) {
           this.validation = e.response.data.errors
         }
       }

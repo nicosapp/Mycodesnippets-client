@@ -1,6 +1,5 @@
 <template>
   <v-app dark>
-    <!-- <TheNavigationDrawerLeft /> -->
     <EditorAppBar />
     <v-main>
       <v-container>

@@ -43,6 +43,9 @@ export default {
         .map((s) => s.uuid)
         .indexOf(this.currentStep.uuid)
     },
+    author() {
+      return this.snippet.author || {}
+    },
   },
   methods: {
     ...mapActions({

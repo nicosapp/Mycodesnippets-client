@@ -15,6 +15,19 @@
 <script>
 export default {
   components: {},
+  async asyncData({ app }) {
+    try {
+      const response = await app.$axios.get('snippets')
+      return {
+        snippets: response.data.data,
+      }
+    } catch (e) {}
+  },
+  data() {
+    return {
+      snippets: [],
+    }
+  },
   head() {
     return {
       title: 'Home',

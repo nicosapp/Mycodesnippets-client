@@ -6,7 +6,6 @@
           <div
             class="mb-4 d-flex justify-space-between align-center grey--text --text-lighten 400"
           >
-            <div>Created by Nicolas</div>
             <div v-if="lastSaved">Last saved at {{ lastSaved }}</div>
             <div v-else>Not saved yet</div>
           </div>
@@ -58,7 +57,7 @@
                 style="width: 100%; height: 100%"
                 @click.prevent.stop="() => {}"
               >
-                <StepNavigationButton :step="previousStep">
+                <StepNavigationButton :step="previousStep" class="mr-2">
                   <v-icon>mdi-code-less-than</v-icon>
                 </StepNavigationButton>
               </div>
@@ -71,7 +70,7 @@
                 style="width: 100%; height: 100%"
                 @click.prevent.stop="() => {}"
               >
-                <StepNavigationButton :step="nextStep">
+                <StepNavigationButton :step="nextStep" class="ml-2">
                   <v-icon dark>mdi-code-greater-than</v-icon>
                 </StepNavigationButton>
               </div>
@@ -93,7 +92,7 @@
       </v-col>
       <v-col v-if="!$vuetify.breakpoint.mobile" cols="12" md="4">
         <div class="ml-4">
-          <StepsList class="mb-4" />
+          <StepsList :editor="true" class="mb-4" />
           <v-divider></v-divider>
           <SnippetPublishing class="my-4" />
         </div>
@@ -125,7 +124,7 @@ export default {
     AddStepButton,
     DeleteStepButton,
   },
-  layout: 'editor',
+  layout: 'snippetEdit',
 
   mixins: [browseSnippet, drawerRight, drawerLeft],
   data() {
