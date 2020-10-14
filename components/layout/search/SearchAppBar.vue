@@ -2,6 +2,7 @@
   <v-app-bar :hide-on-scroll="true" class="px-md-6" fixed app>
     <v-text-field
       v-model="searchText"
+      type="search"
       hide-details="auto"
       placeholder="Snippet title"
       filled
@@ -10,6 +11,7 @@
       clear-icon="mdi-close-circle"
       append-icon="mdi-magnify"
       @click:append="search"
+      @keydown="enter"
     ></v-text-field>
 
     <template v-slot:extension>
@@ -33,6 +35,9 @@ export default {
     return {}
   },
   methods: {
+    enter(e) {
+      if (e.key === 'Enter') this.search()
+    },
     search() {
       this.getSnippets()
     },
