@@ -1,4 +1,4 @@
-// @import url('https://fonts.googleapis.com/css? family=Comfortaa&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
 pre {
   word-break: break-all;
@@ -14,7 +14,12 @@ a {
     content: none !important;
   }
 }
-
+.font-header {
+  font-family: 'Staatliches', cursive;
+}
+.v-toolbar__title {
+  font-family: 'Staatliches', cursive;
+}
 // .v-application {
 //   font-family: Comfortaa, sans-serif !important;
 // }

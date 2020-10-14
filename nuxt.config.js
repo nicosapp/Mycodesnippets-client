@@ -52,6 +52,15 @@ export default {
     '@nuxtjs/auth',
   ],
 
+  pwa: {
+    manifest: {
+      name: 'MyCodeSnippets',
+      short_name: 'MCS',
+      lang: 'en',
+      display: 'standalone',
+    },
+  },
+
   auth: {
     strategies: {
       local: {
@@ -100,7 +109,7 @@ export default {
           success: colors.green.accent3,
         },
         light: {
-          // primary: colors.blue.lighten2,
+          primary: '#635bff',
         },
       },
     },

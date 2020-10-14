@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <v-btn text @click="showToast">TOAST</v-btn>
     <div v-if="total" class="font-weight-medium grey--text text--darken-1">
       Snippets found ({{ total }})
     </div>
@@ -13,7 +12,6 @@
 <script>
 import loadMoreHelper from '@/mixins/snippets/loadMore'
 export default {
-  components: {},
   mixins: [loadMoreHelper],
   async asyncData({ app }) {
     try {

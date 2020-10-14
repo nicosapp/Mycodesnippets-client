@@ -5,7 +5,14 @@
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
     <v-spacer />
-    <v-toolbar-title v-text="title" />
+    <v-img
+      class="mr-3"
+      max-height="60px"
+      max-width="60px"
+      :aspect-ratio="1"
+      :src="require('~/assets/logo.svg')"
+    ></v-img>
+    <v-toolbar-title>{{ title }}</v-toolbar-title>
     <v-spacer />
     <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
       <v-icon>mdi-menu</v-icon>
@@ -38,6 +45,9 @@ export default {
     ...mapGetters({
       drawerLeft: 'drawerLeft/value',
     }),
+    logo() {
+      return '~/assets/logo.svg'
+    },
     title() {
       switch (this.page) {
         case 'account':
