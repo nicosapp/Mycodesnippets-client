@@ -37,6 +37,7 @@ export default {
 
   methods: {
     ...mapActions({
+      setSnippets: 'search/setSnippets',
       getSnippets: 'search/getSnippets',
       loadMoreSnippets: 'search/loadMoreSnippets',
       setSearchText: 'search/setSearchText',

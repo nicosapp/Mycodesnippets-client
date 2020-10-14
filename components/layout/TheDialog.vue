@@ -3,15 +3,15 @@
 </template>
 
 <script>
-import ToastDefault from '@/components/layout/toast/ToastDefault'
+import DialogDefault from '@/components/layout/dialog/DialogDefault'
 import { mapGetters } from 'vuex'
 export default {
   components: {
-    ToastDefault,
+    DialogDefault,
   },
   computed: {
     ...mapGetters({
-      component: 'toast/component',
+      component: 'dialog/component',
     }),
   },
 }

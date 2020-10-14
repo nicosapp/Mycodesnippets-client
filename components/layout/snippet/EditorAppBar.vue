@@ -1,8 +1,8 @@
 <template>
   <v-app-bar class="px-md-6" :height="72" :clipped-left="false" fixed app>
-    <v-btn icon @click.prevent="deleteSnippet">
+    <DeleteSnippetButton :snippet="snippet" @deleted="handleSnippetDeleted">
       <v-icon>mdi-close-box</v-icon>
-    </v-btn>
+    </DeleteSnippetButton>
     <v-spacer />
     <v-text-field
       :value="snippet.title"
@@ -30,13 +30,19 @@
 
 <script>
 import browseSnippet from '@/mixins/snippets/snippet'
+import DeleteSnippetButton from '@/pages/snippets/_id/edit/components/DeleteSnippetButton'
 export default {
+  components: {
+    DeleteSnippetButton,
+  },
   mixins: [browseSnippet],
   data() {
     return {}
   },
   methods: {
-    deleteSnippet() {},
+    handleSnippetDeleted() {
+      this.$router.push({ name: 'search' })
+    },
   },
 }
 </script>

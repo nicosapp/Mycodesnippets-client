@@ -2,7 +2,7 @@ import queryString from 'query-string'
 
 export const state = () => ({
   searchText: '',
-  isPublic: true,
+  isPublic: false,
   inStepsTitle: false,
   snippets: [],
   count: 0,
@@ -105,6 +105,10 @@ export const actions = {
     commit('SET_CURRENT_PAGE', state.current_page + 1)
     const snippets = await dispatch('loadSnippets')
     commit('PUSH_SNIPPETS', snippets.data)
+  },
+
+  setSnippets({ commit }, snippets) {
+    commit('SET_SNIPPETS', snippets)
   },
 
   setSearchText({ commit }, value) {

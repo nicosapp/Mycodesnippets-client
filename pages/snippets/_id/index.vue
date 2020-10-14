@@ -10,7 +10,9 @@
             @click.prevent="toggleDrawerRight"
             ><v-icon>mdi-format-list-text</v-icon>
           </v-btn>
-          <h2 class="primary--text flex-grow">{{ snippet.title }}</h2>
+          <h2 class="primary--text flex-grow">
+            {{ snippet.title || 'Untitled snippet' }}
+          </h2>
         </div>
         <div class="mb-3">
           Created by
@@ -59,6 +61,7 @@ export default {
     return {}
   },
   mounted() {
+    this.$store.dispatch('bottomBar/setActive', 'create')
     this.getSnippet(this.$route.params.id)
   },
   head() {

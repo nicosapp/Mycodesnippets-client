@@ -8,7 +8,10 @@
         sm="6"
         lg="4"
       >
-        <SnippetListItem :snippet="snippet" />
+        <SnippetListItem
+          :snippet="snippet"
+          @snippet-deleted="$emit('snippet-deleted', snippet)"
+        />
       </v-col>
     </v-row>
     <div class="text-center">

@@ -7,6 +7,6 @@
       </v-container>
     </v-main>
     <TheBottomBar />
-    <TheToast />
+    <TheFixedComponents />
   </v-app>
 </template>

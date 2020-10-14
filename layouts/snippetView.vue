@@ -8,6 +8,6 @@
     </v-main>
     <TheBottomBar />
     <EditorDrawerRight />
-    <TheToast />
+    <TheFixedComponents />
   </v-app>
 </template>

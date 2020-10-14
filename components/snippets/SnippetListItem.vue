@@ -25,15 +25,25 @@
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
 
-      <v-btn v-if="canEdit" icon>
+      <DeleteSnippetButton
+        v-if="canEdit"
+        :snippet="snippet"
+        icon
+        @deleted="$emit('snippet-deleted', snippet)"
+      >
         <v-icon>mdi-delete</v-icon>
-      </v-btn>
+      </DeleteSnippetButton>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
+import DeleteSnippetButton from '@/pages/snippets/_id/edit/components/DeleteSnippetButton'
+
 export default {
+  components: {
+    DeleteSnippetButton,
+  },
   props: {
     snippet: {
       required: true,

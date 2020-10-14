@@ -6,18 +6,18 @@
       </template>
       <template v-else>No result</template>
     </div>
-    <SnippetList :snippets="snippets">
+    <SnippetList :snippets="snippets" @snippet-deleted="handleSnippetDelete">
       <LoadMoreButton :visible="canLoadMore" @click="loadMoreSnippets" />
     </SnippetList>
   </v-container>
 </template>
 
 <script>
-import searchState from '@/mixins/search/search'
+import searchHelper from '@/mixins/search/search'
 
 export default {
   layout: 'search',
-  mixins: [searchState],
+  mixins: [searchHelper],
   data() {
     return {
       loading: true,
@@ -29,6 +29,12 @@ export default {
     this.$store.dispatch('bottomBar/setActive', 'search')
   },
   middleware: ['verified'],
+  methods: {
+    handleSnippetDelete(snippet) {
+      const snippets = this.snippets.filter((s) => s.uuid !== snippet.uuid)
+      this.setSnippets(snippets)
+    },
+  },
   head() {
     return {
       title: 'Search',

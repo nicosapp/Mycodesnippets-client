@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="mx-2" icon :color="color" @click="deleteSnippet">
+  <v-btn class="mx-2" icon :color="color" @click="dialog">
     <slot />
   </v-btn>
 </template>
@@ -19,10 +19,25 @@ export default {
   },
 
   methods: {
+    dialog() {
+      this.$dialog.show({
+        title: 'Delete',
+        message: 'Do you really want to delete this snippet?',
+        okFunction: () => {
+          this.deleteSnippet()
+        },
+      })
+    },
     async deleteSnippet() {
-      await this.$axios.$delete(`snippets/${this.snippet.uuid}`)
-      this.notifier.success({ message: 'Snippet deleted!' })
-      this.$emit('deleted', this.currentStep)
+      try {
+        await this.$axios.$delete(`snippets/${this.snippet.uuid}`)
+        this.$notifier.success({ message: 'Snippet deleted!' })
+        this.$emit('deleted', this.snippet)
+      } catch (e) {
+        this.$notifier.error({
+          message: 'Error when trying to delete your snippet',
+        })
+      }
     },
   },
 }

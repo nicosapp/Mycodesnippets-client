@@ -152,6 +152,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('bottomBar/setActive', 'create')
     this.getSnippet(this.$route.params.id)
   },
   methods: {

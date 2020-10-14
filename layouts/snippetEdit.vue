@@ -9,6 +9,6 @@
     <TheBottomBar />
     <EditorDrawerLeft />
     <EditorDrawerRight />
-    <TheToast />
+    <TheFixedComponents />
   </v-app>
 </template>
