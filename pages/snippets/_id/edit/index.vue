@@ -137,7 +137,7 @@ export default {
           description: snippet.description,
         })
         this.touchLastSaved()
-      }, 500),
+      }, 1000),
     },
     currentStep: {
       deep: true,
@@ -148,7 +148,7 @@ export default {
           order: step.order,
         })
         this.touchLastSaved()
-      }, 500),
+      }, 1000),
     },
   },
   mounted() {

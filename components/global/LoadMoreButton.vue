@@ -1,5 +1,5 @@
 <template>
-  <v-btn v-if="visible" @click="click">
+  <v-btn v-if="visible" color="primary" @click="click">
     <v-icon class="mr-2">mdi-download</v-icon>
     Load more
   </v-btn>

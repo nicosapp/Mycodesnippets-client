@@ -1,5 +1,5 @@
 <template>
-  <div v-html="markdown"></div>
+  <div class="markdown-viewer" v-html="markdown"></div>
 </template>
 
 <script>
@@ -35,10 +35,24 @@ export default {
   },
 }
 </script>
-<style>
+<style lang="scss">
 .v-application code {
   color: unset;
   background: unset;
+  font-weight: 500;
+}
+.markdown-viewer {
+  padding-top: 0.5em;
+  code {
+    color: #a9b7c6;
+    background: #2d3748;
+    padding: 0.3em;
+  }
+  ul,
+  p,
+  pre {
+    margin-bottom: 0.5em;
+  }
 }
 .hljs code {
   padding: 0;

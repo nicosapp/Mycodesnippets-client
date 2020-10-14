@@ -3,6 +3,9 @@ import { orderBy as _orderBy } from 'lodash'
 import hotkeys from 'hotkeys-js'
 
 export default {
+  mounted() {
+    this.registerKeyboardShortcuts()
+  },
   computed: {
     ...mapGetters({
       snippet: 'snippet/snippet',
