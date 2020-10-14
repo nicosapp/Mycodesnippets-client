@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$auth.loggedin">
+  <div v-if="$auth.loggedIn">
     <v-bottom-navigation
       v-model="active"
       grow
