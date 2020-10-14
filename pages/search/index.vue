@@ -28,7 +28,6 @@ export default {
     this.getSnippets()
     this.$store.dispatch('bottomBar/setActive', 'search')
   },
-  middleware: ['verified'],
   methods: {
     handleSnippetDelete(snippet) {
       const snippets = this.snippets.filter((s) => s.uuid !== snippet.uuid)

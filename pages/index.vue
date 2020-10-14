@@ -37,12 +37,6 @@ export default {
       const snippets = await this._loadMore('snippets/home')
       this.snippets = [...this.snippets, ...snippets.data.data]
     },
-    showToast() {
-      this.$notifier.info({
-        title: 'Un super titre',
-        message: 'Un message',
-      })
-    },
   },
   head() {
     return {

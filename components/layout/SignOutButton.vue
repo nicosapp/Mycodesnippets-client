@@ -7,7 +7,6 @@ export default {
   methods: {
     async signOut() {
       await this.$auth.logout()
-      this.$router.replace({ name: 'index' })
     },
   },
 }

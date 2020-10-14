@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="$auth.loggedin">
     <v-bottom-navigation
       v-model="active"
       grow
@@ -72,12 +72,14 @@ export default {
     },
 
     async createSnippet() {
-      const snippet = await this.$axios.$post('snippets')
-      this.setActive('create')
-      this.$router.push({
-        name: 'snippets-id-edit',
-        params: { id: snippet.data.uuid },
-      })
+      try {
+        const snippet = await this.$axios.$post('snippets')
+        this.setActive('create')
+        this.$router.push({
+          name: 'snippets-id-edit',
+          params: { id: snippet.data.uuid },
+        })
+      } catch (e) {}
     },
   },
 }

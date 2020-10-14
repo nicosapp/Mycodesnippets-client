@@ -202,7 +202,6 @@ export default {
     AvatarUpload,
   },
   mixins: [validationRules],
-  layout: 'account',
   data() {
     return {
       validUserPassword: true,

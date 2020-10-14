@@ -1,8 +1,12 @@
 <template>
   <v-app-bar :clipped-left="false" fixed app>
-    <v-btn v-if="!$auth.loggedIn" icon nuxt to="/search">
+    <v-btn v-if="!$auth.loggedIn && isHomePage" icon nuxt to="/search">
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
+    <v-btn v-if="isSigninPage" :to="{ name: 'index' }" icon>
+      <v-icon>mdi-home</v-icon>
+    </v-btn>
+    <!-- MIDDLE -->
     <v-spacer />
     <v-img
       class="mr-3"
@@ -13,9 +17,9 @@
     ></v-img>
     <v-toolbar-title>{{ title }}</v-toolbar-title>
     <v-spacer />
-
-    <SignOutButton v-if="$auth.loggedIn && page === 'account'" />
-    <v-btn v-if="!$auth.loggedIn" icon nuxt to="/auth/signin">
+    <!-- MIDDLE -->
+    <SignOutButton v-if="$auth.loggedIn && isAccountPage" />
+    <v-btn v-if="!$auth.loggedIn && isHomePage" icon nuxt to="/auth/signin">
       <v-icon>mdi-login-variant</v-icon>
     </v-btn>
   </v-app-bar>
@@ -52,6 +56,15 @@ export default {
         default:
           return 'MyCodeSnippets'
       }
+    },
+    isSigninPage() {
+      return this.$route.path.indexOf('signin') > 0
+    },
+    isAccountPage() {
+      return this.$route.path.indexOf('account') > 0
+    },
+    isHomePage() {
+      return this.$route.path.length === 1
     },
   },
   methods: {

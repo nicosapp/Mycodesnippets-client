@@ -9,9 +9,7 @@
           lazy-validation
           @submit.prevent="signin"
         >
-          <v-alert v-if="isError" dense dismissible border="left" type="error">
-            There is an error in the form!
-          </v-alert>
+          {{ $route.path }}
           <v-text-field
             v-model="form.email"
             :rules="[rules.required, rules.emailValid]"
@@ -102,6 +100,7 @@ export default {
       } catch (e) {
         if (e.response.status === 422) {
           this.validation = e.response.data.errors
+          this.$notifier.error({ message: 'There is an error in the form' })
         }
       }
     },

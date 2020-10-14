@@ -16,7 +16,7 @@
 
     <template v-slot:extension>
       <div>
-        <SearchChip v-model="isPublic">public</SearchChip>
+        <SearchChip v-if="$auth.loggedin" v-model="isPublic">public</SearchChip>
         <SearchChip v-model="inStepsTitle">steps title</SearchChip>
       </div>
     </template>
