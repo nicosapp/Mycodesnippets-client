@@ -53,6 +53,9 @@ export default {
   ],
 
   pwa: {
+    icon: {
+      source: './static/icon.png',
+    },
     manifest: {
       name: 'MyCodeSnippets',
       short_name: 'MCS',

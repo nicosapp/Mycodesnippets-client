@@ -1,6 +1,5 @@
 <template>
   <v-app-bar :clipped-left="false" fixed app>
-    <!-- <v-app-bar-nav-icon @click.stop="toggleLeft" /> -->
     <v-btn v-if="!$auth.loggedIn" icon nuxt to="/search">
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
@@ -14,9 +13,7 @@
     ></v-img>
     <v-toolbar-title>{{ title }}</v-toolbar-title>
     <v-spacer />
-    <!-- <v-btn icon @click.stop="rightDrawer = !rightDrawer">
-      <v-icon>mdi-menu</v-icon>
-    </v-btn> -->
+
     <SignOutButton v-if="$auth.loggedIn && page === 'account'" />
     <v-btn v-if="!$auth.loggedIn" icon nuxt to="/auth/signin">
       <v-icon>mdi-login-variant</v-icon>
