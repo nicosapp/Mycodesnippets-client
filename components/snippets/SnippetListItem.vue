@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-img
-      src=""
+      :src="thumbnailUrl"
       :aspect-ratio="16 / 9"
       class="white--text align-end grey lighten-2"
       gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
@@ -9,22 +9,23 @@
     >
       <v-card-title v-text="title"></v-card-title>
     </v-img>
-    <v-card-subtitle
-      >Listen to your favorite artists and albums whenever and wherever, online
-      and offline.</v-card-subtitle
-    >
+    <v-card-subtitle>
+      {{ description }}
+    </v-card-subtitle>
+
     <v-card-actions>
+      <v-btn text> {{ snippet.steps_count }} Steps </v-btn>
       <v-spacer></v-spacer>
 
       <v-btn icon @click.prevent="view">
         <v-icon>mdi-eye</v-icon>
       </v-btn>
 
-      <v-btn icon @click.prevent="edit">
+      <v-btn v-if="canEdit" icon @click.prevent="edit">
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
 
-      <v-btn icon>
+      <v-btn v-if="canEdit" icon>
         <v-icon>mdi-delete</v-icon>
       </v-btn>
     </v-card-actions>
@@ -43,11 +44,18 @@ export default {
     title() {
       return this.snippet.title || 'Untitled snippet'
     },
-    url() {
-      return this.snippet.cover ? this.snippet.cover.thumbnailUrl : 'null'
+    thumbnailUrl() {
+      return this.snippet.cover ? this.snippet.cover.url : 'null'
     },
     description() {
-      return ''
+      return this.snippet.description || ''
+    },
+    canEdit() {
+      return (
+        this.$auth.loggedIn &&
+        this.snippet.author &&
+        this.snippet.author.id === this.$auth.user.id
+      )
     },
   },
   methods: {

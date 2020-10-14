@@ -97,7 +97,7 @@ export default {
       try {
         await this.$axios.$get('sanctum/csrf-cookie')
         await this.$auth.loginWith('local', { data: this.form })
-        this.$router.push({ name: 'account' })
+        this.$router.push({ name: 'dashboard' })
         this.validation = {}
       } catch (e) {
         if (e.response.status === 422) {

@@ -7,5 +7,6 @@
       </v-container>
     </v-main>
     <TheBottomBar />
+    <TheToast />
   </v-app>
 </template>

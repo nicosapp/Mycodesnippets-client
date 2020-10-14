@@ -21,14 +21,11 @@
               filled
               clearable
               clear-icon="mdi-close-circle"
-              @input="changeStepValue('title', $event)"
+              @input="changeStepProperty('title', $event)"
             ></v-text-field>
           </div>
           <div class="d-flex justify-space-between">
-            <v-btn
-              v-if="$vuetify.breakpoint.mobile"
-              icon
-              @click.prevent="toggleDrawerLeft"
+            <v-btn icon @click.prevent="toggleDrawerLeft"
               ><v-icon>mdi-cog</v-icon></v-btn
             >
             <AddStepButton
@@ -80,7 +77,7 @@
                 <StepEditor
                   :value="currentStep.body"
                   :step="currentStep"
-                  @input="changeStepValue('body', $event)"
+                  @input="changeStepProperty('body', $event)"
                 />
               </v-tab-item>
               <v-tab-item value="tab-preview">
@@ -93,8 +90,6 @@
       <v-col v-if="!$vuetify.breakpoint.mobile" cols="12" md="4">
         <div class="ml-4">
           <StepsList :editor="true" class="mb-4" />
-          <v-divider></v-divider>
-          <SnippetPublishing class="my-4" />
         </div>
       </v-col>
     </v-row>
@@ -112,7 +107,6 @@ import drawerRight from '@/mixins/navigation/drawerRight'
 import drawerLeft from '@/mixins/navigation/drawerLeft'
 import StepsList from './components/StepsList'
 import StepNavigationButton from './components/StepNavigationButton'
-import SnippetPublishing from './components/SnippetPublishing'
 import AddStepButton from './components/AddStepButton'
 import DeleteStepButton from './components/DeleteStepButton'
 
@@ -120,7 +114,6 @@ export default {
   components: {
     StepsList,
     StepNavigationButton,
-    SnippetPublishing,
     AddStepButton,
     DeleteStepButton,
   },
@@ -141,6 +134,7 @@ export default {
         await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
           title: snippet.title,
           is_public: snippet.is_public,
+          description: snippet.description,
         })
         this.touchLastSaved()
       }, 500),

@@ -50,19 +50,19 @@ export default {
   methods: {
     ...mapActions({
       getSnippet: 'snippet/getSnippet',
-      updateSnippetValue: 'snippet/updateSnippetValue',
+      updateSnippetProperty: 'snippet/updateSnippetProperty',
       updateStep: 'snippet/updateStep',
-      updateStepValue: 'snippet/updateStepValue',
+      updateStepProperty: 'snippet/updateStepProperty',
       addStep: 'snippet/addStep',
       deleteStep: 'snippet/deleteStep',
     }),
 
-    changeSnippetValue(key, value) {
-      this.updateSnippetValue({ key, value })
+    changeSnippetProperty(key, value) {
+      this.updateSnippetProperty({ key, value })
     },
 
-    changeStepValue(key, value) {
-      this.updateStepValue({ step: this.currentStep, key, value })
+    changeStepProperty(key, value) {
+      this.updateStepProperty({ step: this.currentStep, key, value })
     },
 
     registerKeyboardShortcuts() {

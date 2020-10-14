@@ -7,6 +7,7 @@ export default {
       isPublicValue: 'search/isPublic',
       inStepsTitleValue: 'search/inStepsTitle',
       snippetsCount: 'search/count',
+      canLoadMore: 'search/canLoadMore',
     }),
     searchText: {
       get() {
@@ -37,6 +38,7 @@ export default {
   methods: {
     ...mapActions({
       getSnippets: 'search/getSnippets',
+      loadMoreSnippets: 'search/loadMoreSnippets',
       setSearchText: 'search/setSearchText',
       setIsPublic: 'search/setIsPublic',
       setInStepsTitle: 'search/setInStepsTitle',

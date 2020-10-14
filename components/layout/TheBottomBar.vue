@@ -33,21 +33,6 @@
         <v-icon>mdi-account-circle</v-icon>
       </v-btn>
     </v-bottom-navigation>
-    <!-- <v-bottom-sheet v-model="sheet">
-      <v-list>
-        <v-subheader>Open in</v-subheader>
-        <v-list-item
-          v-for="tile in tiles"
-          :key="tile.title"
-          @click="sheet = false"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ tile.icon }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>{{ tile.title }}</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-bottom-sheet> -->
   </div>
 </template>
 

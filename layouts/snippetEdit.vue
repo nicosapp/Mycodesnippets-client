@@ -9,5 +9,6 @@
     <TheBottomBar />
     <EditorDrawerLeft />
     <EditorDrawerRight />
+    <TheToast />
   </v-app>
 </template>

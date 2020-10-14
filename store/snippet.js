@@ -49,13 +49,13 @@ export const actions = {
     const snippet = await this.$axios.get(`snippets/${snippetUuid}`)
     commit('SET_SNIPPET', snippet)
   },
-  updateSnippetValue({ commit }, { key, value }) {
+  updateSnippetProperty({ commit }, { key, value }) {
     commit('UPDATE_SNIPPET_VALUE', { key, value })
   },
   updateStep({ commit }, step) {
     commit('UPDATE_STEP', step)
   },
-  updateStepValue({ commit, dispatch }, { step, key, value }) {
+  updateStepProperty({ commit, dispatch }, { step, key, value }) {
     const newStep = _clone(step)
     newStep[key] = value
     dispatch('updateStep', newStep)

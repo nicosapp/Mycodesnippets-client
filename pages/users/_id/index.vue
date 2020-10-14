@@ -2,50 +2,88 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-card class="mx-auto pa-4 mb-6" max-width="600">
-          <div class="fill-height d-flex align-item-center">
-            <div class="mr-4">
-              <v-avatar color="primary" size="128" tile>
-                <img src="http://www.gravatar.com/avatar/?d=mp" alt="John" />
-              </v-avatar>
-              <div class="font-weight-medium text-center">{{ user.name }}</div>
+        <v-card class="mx-auto mb-6" max-width="700">
+          <div class="fill-height d-flex align-center flex-wrap flex-md-nowrap">
+            <div class="mx-auto mr-md-4">
+              <v-img
+                rounded
+                :src="avatarUrl"
+                :aspect-ratio="1"
+                width="128px"
+                height="128px"
+                alt="avatar"
+                class="ma-4"
+              ></v-img>
             </div>
-            <div class="flex-grow-1">{{ user.description }}</div>
+            <div class="flex-grow-1 d-flex flex-column" style="width: 100%">
+              <v-card-title>{{ user.name }}</v-card-title>
+              <v-card-text class="flex-grow-1">
+                {{ user.description }}
+              </v-card-text>
+
+              <v-card-actions class="flex-wrap flex-md-nowrap">
+                <v-spacer class="d-none d-md-block"></v-spacer>
+                <v-btn text>
+                  <v-icon class="mr-2">mdi-calendar-range</v-icon>
+                  {{ registeredDate }}
+                </v-btn>
+                <v-btn text class="mx-0">
+                  <v-icon class="mr-2">mdi-code-json</v-icon>
+                  {{ user.snippets_count }} Snippets
+                </v-btn>
+              </v-card-actions>
+            </div>
           </div>
         </v-card>
-
-        <v-row>
-          <v-col
-            v-for="snippet in snippets"
-            :key="snippet.uuid"
-            cols="12"
-            md="6"
-            lg="4"
-          >
-            <SnippetListItem :snippet="snippet" />
-          </v-col>
-        </v-row>
+        <SnippetList :snippets="snippets">
+          <LoadMoreButton :visible="canLoadMore" @click="loadMore" />
+        </SnippetList>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import loadMoreHelper from '@/mixins/snippets/loadMore'
+import moment from 'moment'
+
 export default {
+  mixins: [loadMoreHelper],
   async asyncData({ app, params }) {
-    const response = await app.$axios.$get(`users/${params.id}`)
+    const user = await app.$axios.$get(`users/${params.id}`)
+    const snippets = await app.$axios.$get(`users/${params.id}/snippets`)
+    // eslint-disable-next-line camelcase
+    const { total, current_page, last_page } = snippets.meta
     return {
-      user: response.data,
+      user: user.data,
+      snippets: snippets.data,
+      total,
+      current_page,
+      last_page,
     }
   },
   data() {
     return {
       user: null,
+      snippets: [],
     }
   },
   computed: {
-    snippets() {
-      return this.user.snippets.data
+    registeredDate() {
+      return moment(this.user.created_at).format('LL')
+    },
+    avatarUrl() {
+      return this.$auth.user.avatar
+        ? this.$auth.user.avatar.url
+        : 'http://www.gravatar.com/avatar/?d=mp'
+    },
+  },
+  methods: {
+    async loadMore() {
+      const snippets = await this._loadMore(
+        `users/${this.$route.params.id}/snippets`
+      )
+      this.snippets = [...this.snippets, ...snippets.data.data]
     },
   },
 }

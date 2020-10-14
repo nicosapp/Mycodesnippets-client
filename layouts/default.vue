@@ -7,8 +7,7 @@
       </v-container>
     </v-main>
     <TheBottomBar v-if="$auth.loggedIn" />
-    <TheDrawerLeft />
-    <!-- <TheDrawerRight :open="rightDrawer" /> -->
+    <TheToast />
   </v-app>
 </template>
 

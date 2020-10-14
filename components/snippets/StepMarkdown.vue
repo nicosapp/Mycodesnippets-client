@@ -12,7 +12,7 @@ const md = require('markdown-it')({
         '<pre class="hljs language-' +
         esc(lang.toLowerCase()) +
         '"><code>' +
-        hljs.highlightAuto(esc(str)).value +
+        hljs.highlightAuto(str).value +
         '</code></pre>'
       )
     }

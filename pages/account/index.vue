@@ -1,6 +1,71 @@
 <template>
   <v-container>
-    <h2 class="text-center">Hello {{ $auth.user.name }}</h2>
+    <h2 class="text-center mb-4">Hello {{ $auth.user.name }}</h2>
+    <div class="d-flex">
+      <h3 class="mb-4 flex-grow-1">User informations</h3>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            :to="{ name: 'users-id', params: { id: $auth.user.uuid } }"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-eye</v-icon>
+          </v-btn>
+        </template>
+        <span>View public profile</span>
+      </v-tooltip>
+    </div>
+    <v-row>
+      <v-col cols="12" md="4">
+        <AvatarUpload />
+      </v-col>
+      <v-col cols="12" md="8">
+        <v-form
+          ref="formUserProfile"
+          v-model="validUserProfile"
+          class="mb-4"
+          lazy-validation
+          @submit.prevent="updateProfile"
+        >
+          <v-text-field
+            id="name"
+            v-model="form.name"
+            name="name"
+            :rules="[rules.required, nameLength]"
+            label="Username"
+            :error-messages="validation.name"
+            required
+            filled
+            @input="validation.name = null"
+          ></v-text-field>
+          <v-textarea
+            id="description"
+            v-model="form.description"
+            :rules="[rules.max(400, form.description)]"
+            name="description"
+            counter="400"
+            filled
+            label="Description"
+            :error-messages="validation.description"
+            @input="validation.description = null"
+          ></v-textarea>
+          <div class="d-flex justify-center">
+            <v-btn
+              type="submit"
+              :disabled="!validUserProfile"
+              color="primary"
+              class="mr-4"
+              @click="validateUserProfile"
+            >
+              Update Profile
+            </v-btn>
+          </div>
+        </v-form>
+      </v-col>
+    </v-row>
+    <v-divider></v-divider>
     <v-row justify="center">
       <v-col cols="12" md="6">
         <h3 class="mb-4">User informations</h3>
@@ -11,9 +76,6 @@
           lazy-validation
           @submit.prevent="updateInfos"
         >
-          <v-alert v-if="isError" dense dismissible border="left" type="error">
-            There is an error in the form!
-          </v-alert>
           <v-text-field
             id="email"
             v-model="form.email"
@@ -23,17 +85,7 @@
             :error-messages="validation.email"
             required
             filled
-          ></v-text-field>
-
-          <v-text-field
-            id="name"
-            v-model="form.name"
-            name="name"
-            :rules="[rules.required, nameLength]"
-            label="Username"
-            :error-messages="validation.name"
-            required
-            filled
+            @input="validation.email = null"
           ></v-text-field>
 
           <v-text-field
@@ -43,6 +95,7 @@
             label="First name"
             :error-messages="validation.firstname"
             filled
+            @input="validation.firstname = null"
           ></v-text-field>
 
           <v-text-field
@@ -52,6 +105,7 @@
             label="Lastname name"
             :error-messages="validation.lastname"
             filled
+            @input="validation.lastname = null"
           ></v-text-field>
 
           <v-text-field
@@ -64,18 +118,9 @@
             counter="10"
             :error-messages="validation.phone_number"
             filled
+            @input="validation.phone_number = null"
           ></v-text-field>
 
-          <v-textarea
-            id="description"
-            v-model="form.description"
-            :rules="[rules.max(400, form.description)]"
-            name="description"
-            counter="400"
-            filled
-            label="Description"
-            :error-messages="validation.description"
-          ></v-textarea>
           <div class="d-flex justify-center">
             <v-btn
               type="submit"
@@ -115,6 +160,7 @@
             filled
             required
             :error-messages="validation.password"
+            @input="validation.password = null"
             @click:append="show = !show"
           ></v-text-field>
 
@@ -128,6 +174,7 @@
             filled
             required
             :error-messages="validation.password_confirmation"
+            @input="validation.password_confirmation = null"
             @click:append="show = !show"
           ></v-text-field>
 
@@ -149,13 +196,18 @@
 </template>
 <script>
 import validationRules from '@/mixins/form/validationRules'
+import AvatarUpload from './components/AvatarUpload'
 export default {
+  components: {
+    AvatarUpload,
+  },
   mixins: [validationRules],
   layout: 'account',
   data() {
     return {
       validUserPassword: true,
       validUserInfos: true,
+      validUserProfile: true,
       show: false,
       nameLength: (v) => v.length >= 4 || 'Min 4 characters',
       validation: {},
@@ -176,10 +228,16 @@ export default {
       return Object.keys(this.validation).length
     },
   },
+  mounted() {
+    this.$store.dispatch('bottomBar/setActive', 'account')
+  },
   methods: {
     validateUserInfos() {
       this.validation = {}
       this.$refs.formUserInfos.validate()
+    },
+    validateUserProfile() {
+      this.$refs.formUserProfile.validate()
     },
     validatePassword() {
       this.$refs.formUserPassword.validate()
@@ -192,18 +250,38 @@ export default {
         })
         this.form.password = ''
         this.form.password_confirmation = ''
+        this.$notifier.success({ message: 'Password updated!' })
       } catch (e) {
         if (e.response && e.response.status === 422) {
           this.validation = e.response.data.errors
+          this.$notifier.error({ message: 'There is an error in the form!' })
+        }
+      }
+    },
+    async updateProfile() {
+      try {
+        await this.$axios.$patch(`users/${this.$auth.user.uuid}/profile`, {
+          name: this.form.name,
+          description: this.form.description,
+        })
+        this.$notifier.success({ message: 'User profile updated!' })
+        await this.$auth.fetchUser()
+      } catch (e) {
+        if (e.response && e.response.status === 422) {
+          this.validation = e.response.data.errors
+          this.$notifier.error({ message: 'There is an error in the form!' })
         }
       }
     },
     async updateInfos() {
       try {
         await this.$axios.$patch(`users/${this.$auth.user.uuid}`, this.form)
+        this.$notifier.success({ message: 'User infos updated!' })
+        await this.$auth.fetchUser()
       } catch (e) {
         if (e.response && e.response.status === 422) {
           this.validation = e.response.data.errors
+          this.$notifier.error({ message: 'There is an error in the form!' })
         }
       }
     },

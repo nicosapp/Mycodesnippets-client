@@ -6,17 +6,9 @@
       </template>
       <template v-else>No result</template>
     </div>
-    <v-row>
-      <v-col
-        v-for="snippet in snippets"
-        :key="snippet.uuid"
-        cols="12"
-        md="6"
-        lg="4"
-      >
-        <SnippetListItem :snippet="snippet" />
-      </v-col>
-    </v-row>
+    <SnippetList :snippets="snippets">
+      <LoadMoreButton :visible="canLoadMore" @click="loadMoreSnippets" />
+    </SnippetList>
   </v-container>
 </template>
 
@@ -34,6 +26,7 @@ export default {
 
   mounted() {
     this.getSnippets()
+    this.$store.dispatch('bottomBar/setActive', 'search')
   },
   middleware: ['verified'],
   head() {

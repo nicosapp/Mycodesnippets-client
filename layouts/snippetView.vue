@@ -8,5 +8,6 @@
     </v-main>
     <TheBottomBar />
     <EditorDrawerRight />
+    <TheToast />
   </v-app>
 </template>

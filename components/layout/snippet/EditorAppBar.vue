@@ -12,7 +12,7 @@
       clearable
       class="flex-grow-1"
       clear-icon="mdi-close-circle"
-      @input="changeSnippetValue('title', $event)"
+      @input="changeSnippetProperty('title', $event)"
     ></v-text-field>
     <v-spacer />
     <v-btn

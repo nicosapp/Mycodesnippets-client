@@ -66,12 +66,12 @@ export default {
       this.$axios.$patch(`steps/${adjacentStep.uuid}`, {
         order: this.currentStep.order,
       })
-      this.updateStepValue({
+      this.updateStepProperty({
         step: adjacentStep,
         key: 'order',
         value: this.currentStep.order,
       })
-      this.changeStepValue('order', order)
+      this.changeStepProperty('order', order)
     },
   },
 }

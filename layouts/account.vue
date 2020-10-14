@@ -7,6 +7,7 @@
       </v-container>
     </v-main>
     <TheBottomBar v-if="$auth.loggedIn" />
+    <TheToast />
   </v-app>
 </template>
 

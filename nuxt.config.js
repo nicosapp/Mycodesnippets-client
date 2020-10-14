@@ -24,7 +24,7 @@ export default {
   css: ['~/assets/styles/app.scss'],
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
-  plugins: [],
+  plugins: ['~/plugins/axiosRedirection', '~/plugins/notifier'],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
