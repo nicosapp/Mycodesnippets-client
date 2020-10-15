@@ -59,14 +59,14 @@ export default {
   computed: {
     avatar: {
       get() {
-        return this.$auth.user.avatar || {}
+        return this.$auth.user.avatar || null
       },
       set(newAvatar) {
         this.updateUserProperty('avatar', newAvatar)
       },
     },
     url() {
-      return this.avatar ? this.avatar.url : null
+      return this.avatar ? this.avatar.url : this.defaultUrl
     },
     defaultUrl() {
       return 'http://www.gravatar.com/avatar/?d=mp'

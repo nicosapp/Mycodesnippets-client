@@ -60,7 +60,7 @@ export default {
       name: 'MyCodeSnippets',
       short_name: 'MCS',
       lang: 'en',
-      display: 'standalone',
+      display: 'fullscreen',
     },
   },
 

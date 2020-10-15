@@ -50,7 +50,11 @@ export default {
   }
   ul,
   p,
-  pre {
+  pre,
+  h2,
+  h3,
+  h4,
+  h5 {
     margin-bottom: 0.5em;
   }
 }
