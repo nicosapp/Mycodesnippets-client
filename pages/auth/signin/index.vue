@@ -9,7 +9,6 @@
           lazy-validation
           @submit.prevent="signin"
         >
-          {{ $route.path }}
           <v-text-field
             v-model="form.email"
             :rules="[rules.required, rules.emailValid]"
@@ -34,7 +33,7 @@
               class="d-flex justify-end"
               style="position: absolute; bottom: 0; right: 0"
             >
-              <nuxt-link to="/password/email">
+              <nuxt-link to="/password/reset">
                 Forgot your password ?
               </nuxt-link>
             </div>
@@ -102,6 +101,7 @@ export default {
           this.validation = e.response.data.errors
           this.$notifier.error({ message: 'There is an error in the form' })
         }
+        this.$notifier.error({ message: 'Sorry, login failed :(' })
       }
     },
   },

@@ -43,6 +43,11 @@ export default {
 }
 .markdown-viewer {
   padding-top: 0.5em;
+  blockquote {
+    padding: 0.4em 0.2em;
+    margin: 0.5em 0;
+    background: lightgrey;
+  }
   code {
     color: #a9b7c6;
     background: #2d3748;
