@@ -4,7 +4,7 @@
       <v-col>
         <v-card class="mx-auto mb-6" max-width="700">
           <div class="fill-height d-flex align-center flex-wrap flex-md-nowrap">
-            <div class="mx-auto mr-md-4">
+            <div class="mx-auto">
               <v-img
                 rounded
                 :src="avatarUrl"
@@ -12,7 +12,7 @@
                 width="128px"
                 height="128px"
                 alt="avatar"
-                class="ma-4"
+                class="ma-5"
               ></v-img>
             </div>
             <div class="flex-grow-1 d-flex flex-column" style="width: 100%">

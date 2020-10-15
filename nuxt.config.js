@@ -52,6 +52,7 @@ export default {
     '@nuxtjs/auth',
   ],
 
+  // PWA module configuration
   pwa: {
     icon: {
       source: './static/icon.png',
@@ -64,6 +65,7 @@ export default {
     },
   },
 
+  // Auth module configuration
   auth: {
     strategies: {
       local: {
