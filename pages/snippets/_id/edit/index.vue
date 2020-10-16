@@ -81,7 +81,7 @@
                 />
               </v-tab-item>
               <v-tab-item value="tab-preview">
-                <StepMarkdown :value="currentStep.body" />
+                <StepMarkdown :value="currentStep.body" :trigger="editorTab" />
               </v-tab-item>
             </v-tabs-items>
           </v-tabs>
@@ -131,23 +131,32 @@ export default {
     snippet: {
       deep: true,
       handler: _debounce(async function (snippet) {
-        await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
-          title: snippet.title,
-          is_public: snippet.is_public,
-          description: snippet.description,
-        })
-        this.touchLastSaved()
+        try {
+          this.titleAvailable()
+          await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
+            title: snippet.title,
+            is_public: snippet.is_public,
+            description: snippet.description,
+          })
+          this.touchLastSaved()
+        } catch (e) {
+          this.$notifier.error500()
+        }
       }, 1000),
     },
     currentStep: {
       deep: true,
       handler: _debounce(async function (step) {
-        await this.$axios.$patch(`steps/${this.currentStep.uuid}`, {
-          title: step.title,
-          body: step.body,
-          order: step.order,
-        })
-        this.touchLastSaved()
+        try {
+          await this.$axios.$patch(`steps/${this.currentStep.uuid}`, {
+            title: step.title,
+            body: step.body,
+            order: step.order,
+          })
+          this.touchLastSaved()
+        } catch (e) {
+          this.$notifier.error500()
+        }
       }, 1000),
     },
   },
@@ -169,6 +178,14 @@ export default {
       const previousStep = this.previousStep
       this.deleteStep(step)
       this.goToStep(previousStep || this.firstStep)
+    },
+    async titleAvailable() {
+      const response = await this.$axios.$get(
+        `snippets/titleAvailable?title=${this.snippet.title}`
+      )
+      if (!response.data.available) {
+        this.$notifier.warn({ message: 'Title is already taken' })
+      }
     },
   },
   middleware: ['verified'],

@@ -13,8 +13,8 @@ export default {
       get() {
         return this.searchTextValue
       },
-      set(value) {
-        this.setSearchText(value)
+      set(searchText) {
+        this.setFilters({ searchText })
       },
     },
     isPublic: {
@@ -22,15 +22,16 @@ export default {
         return this.isPublicValue
       },
       set(value) {
-        this.setIsPublic(value)
+        console.log(value)
+        this.setFilters({ isPublic: value })
       },
     },
     inStepsTitle: {
       get() {
         return this.inStepsTitleValue
       },
-      set(value) {
-        this.setInStepsTitle(value)
+      set(inStepsTitle) {
+        this.setFilters({ inStepsTitle })
       },
     },
   },
@@ -40,9 +41,7 @@ export default {
       setSnippets: 'search/setSnippets',
       getSnippets: 'search/getSnippets',
       loadMoreSnippets: 'search/loadMoreSnippets',
-      setSearchText: 'search/setSearchText',
-      setIsPublic: 'search/setIsPublic',
-      setInStepsTitle: 'search/setInStepsTitle',
+      setFilters: 'search/setFilters',
     }),
   },
 }

@@ -1,0 +1,8 @@
+@function hextorgb($hex) {
+  @return red($hex), green($hex), blue($hex);
+}
+$color-primary: #635bff;
+:root {
+  --color-primary: #{$color-primary};
+  --color-primary--rgb: #{hextorgb($color-primary)};
+}

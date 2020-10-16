@@ -45,26 +45,24 @@ export const mutations = {
   PUSH_SNIPPETS(state, snippets) {
     state.snippets = [...state.snippets, ...snippets]
   },
-  SET_SEARCHTEXT(state, value) {
-    state.searchText = value
+  SET_FILTERS(state, payload) {
+    state.searchText =
+      payload.searchText !== undefined ? payload.searchText : state.searchText
+    state.isPublic =
+      payload.isPublic !== undefined ? payload.isPublic : state.isPublic
+    state.inStepsTitle =
+      payload.inStepsTitle !== undefined
+        ? payload.inStepsTitle
+        : state.inStepsTitle
   },
-  SET_IS_PUBLIC(state, value) {
-    state.isPublic = value
-  },
-  SET_IN_STEPS_TITLE(state, value) {
-    state.inStepsTitle = value
-  },
-  SET_COUNT(state, count) {
-    state.count = count
-  },
-  SET_CURRENT_PAGE(state, value) {
-    state.current_page = value
-  },
-  SET_LAST_PAGE(state, value) {
-    state.last_page = value
-  },
+
   SET_CAN_LOAD_MORE(state, value) {
     state.canLoadMore = value
+  },
+  SET_META(state, payload) {
+    state.current_page = payload.current_page || state.current_page
+    state.last_page = payload.last_page || state.last_page
+    state.count = payload.count || state.count
   },
 }
 
@@ -89,10 +87,13 @@ export const actions = {
     return snippets
   },
   async getSnippets({ commit, state, dispatch }) {
+    commit('SET_META', { current_page: 1 })
     const snippets = await dispatch('loadSnippets')
-    commit('SET_COUNT', snippets.meta.total)
-    commit('SET_CURRENT_PAGE', snippets.meta.current_page)
-    commit('SET_LAST_PAGE', snippets.meta.last_page)
+    commit('SET_META', {
+      current_page: snippets.meta.current_page,
+      last_page: snippets.meta.last_page,
+      count: snippets.meta.total,
+    })
     commit('SET_SNIPPETS', snippets.data)
     if (snippets.meta.current_page < snippets.meta.last_page) {
       commit('SET_CAN_LOAD_MORE', true)
@@ -107,19 +108,7 @@ export const actions = {
     commit('PUSH_SNIPPETS', snippets.data)
   },
 
-  setSnippets({ commit }, snippets) {
-    commit('SET_SNIPPETS', snippets)
-  },
-
-  setSearchText({ commit }, value) {
-    commit('SET_SEARCHTEXT', value)
-  },
-
-  setIsPublic({ commit }, value) {
-    commit('SET_IS_PUBLIC', value)
-  },
-
-  setInStepsTitle({ commit }, value) {
-    commit('SET_IN_STEPS_TITLE', value)
+  setFilters({ commit }, payload) {
+    commit('SET_FILTERS', payload)
   },
 }

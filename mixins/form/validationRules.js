@@ -23,7 +23,6 @@ export default {
           'Password must contain uppercase characters',
         passwordNumbers: (v) =>
           /^(?=.*[0-9])/.test(v) || 'Password must contain numbers',
-
         passwordMatch: (v) =>
           v === this.form.password || 'Password does not match',
       },

@@ -8,6 +8,10 @@ export default ({ app, store }, inject) => {
       payload = { ...payload, ...config }
       store.dispatch('toast/showMessage', payload)
     },
+    error500() {
+      const config = { color: 'error', text: true, message: 'Server error :(' }
+      store.dispatch('toast/showMessage', config)
+    },
     success(payload) {
       const config = { color: 'success', text: true }
       payload = { ...payload, ...config }
