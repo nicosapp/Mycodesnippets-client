@@ -1,9 +1,9 @@
 name: Continuous Deployment Live
 
 on:
-  # push:
-  #   branches:
-  #     - master
+  push:
+    branches:
+      - master
   workflow_dispatch:
     branches:
       - master

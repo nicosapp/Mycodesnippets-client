@@ -113,9 +113,9 @@ export default {
     },
     async signup() {
       try {
-        await this.$axios.$post('api/auth/signup', this.form)
+        await this.$axios.$post('auth/signup', this.form)
         this.$router.push({
-          name: 'auth-email',
+          name: 'account',
         })
       } catch (e) {
         if (e.response.status === 422) {
