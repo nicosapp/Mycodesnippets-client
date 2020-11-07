@@ -57,11 +57,15 @@ export default {
     icon: {
       source: './static/icon.png',
     },
+    meta: {
+      theme_color: 'white',
+    },
     manifest: {
       name: 'MyCodeSnippets',
       short_name: 'MCS',
       lang: 'en',
-      display: 'fullscreen',
+      display: 'standalone',
+      description: 'Code snippets website',
     },
   },
 
