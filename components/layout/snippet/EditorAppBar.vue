@@ -10,6 +10,8 @@
       placeholder="Snippet title"
       filled
       clearable
+      :append-icon="icon"
+      :color="color"
       class="flex-grow-1"
       clear-icon="mdi-close-circle"
       @input="changeSnippetProperty('title', $event)"
@@ -38,6 +40,14 @@ export default {
   mixins: [browseSnippet],
   data() {
     return {}
+  },
+  computed: {
+    icon() {
+      return this.validationSnippet.title ? 'mdi-close-thick' : 'mdi-check-bold'
+    },
+    color() {
+      return this.validationSnippet.title ? 'error' : 'success'
+    },
   },
   methods: {
     handleSnippetDeleted() {

@@ -48,26 +48,26 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa',
+    // '@nuxtjs/pwa',
     '@nuxtjs/auth',
   ],
 
   // PWA module configuration
-  pwa: {
-    icon: {
-      source: './static/icon.png',
-    },
-    // meta: {
-    //   theme_color: 'white',
-    // },
-    // manifest: {
-    //   name: 'MyCodeSnippets',
-    //   short_name: 'MCS',
-    //   lang: 'en',
-    //   display: 'standalone',
-    //   description: 'Code snippets website',
-    // },
-  },
+  // pwa: {
+  //   // icon: {
+  //   //   source: './static/icon.png',
+  //   // },
+  //   meta: {
+  //     theme_color: 'white',
+  //   },
+  //   manifest: {
+  //     name: 'MyCodeSnippets',
+  //     short_name: 'MCS',
+  //     lang: 'en',
+  //     display: 'standalone',
+  //     description: 'Code snippets website',
+  //   },
+  // },
 
   // Auth module configuration
   auth: {

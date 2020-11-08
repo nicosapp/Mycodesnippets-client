@@ -13,7 +13,17 @@ export default {
       orderedStepsAsc: 'snippet/orderedStepsAsc',
       orderedStepsDesc: 'snippet/orderedStepsDesc',
       firstStep: 'snippet/firstStep',
+      validationValue: 'snippet/validation',
     }),
+
+    validationSnippet: {
+      get() {
+        return this.validationValue
+      },
+      set(value) {
+        this.setValidation(value)
+      },
+    },
     currentStep() {
       return (
         this.orderedStepsAsc.find((s) => s.uuid === this.$route.query.step) ||
@@ -53,6 +63,7 @@ export default {
   methods: {
     ...mapActions({
       getSnippet: 'snippet/getSnippet',
+      setValidation: 'snippet/setValidation',
       updateSnippetProperty: 'snippet/updateSnippetProperty',
       updateStep: 'snippet/updateStep',
       updateStepProperty: 'snippet/updateStepProperty',

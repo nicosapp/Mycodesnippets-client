@@ -43,7 +43,8 @@
             <v-btn
               block
               type="submit"
-              :disabled="!valid"
+              :disabled="!valid || loading"
+              :loading="loading"
               color="primary"
               height="3rem"
               @click="validate"
@@ -65,6 +66,7 @@
 export default {
   data() {
     return {
+      loading: false,
       valid: true,
       email: '',
       password: '',
@@ -90,7 +92,7 @@ export default {
       this.$refs.form.validate()
     },
     async signin() {
-      // console.log(this.form)
+      this.loading = true
       try {
         await this.$axios.$get(`${process.env.appUrl}/sanctum/csrf-cookie`)
         await this.$auth.loginWith('local', { data: this.form })
@@ -103,6 +105,7 @@ export default {
         }
         this.$notifier.error({ message: 'Sorry, login failed :(' })
       }
+      this.loading = false
     },
   },
   head() {

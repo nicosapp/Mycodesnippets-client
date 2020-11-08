@@ -130,9 +130,10 @@ export default {
   watch: {
     snippet: {
       deep: true,
-      handler: _debounce(async function (snippet) {
+      handler: _debounce(async function (snippet, oldSnippet) {
+        console.log(snippet, oldSnippet)
+        this.validationSnippet = {}
         try {
-          this.titleAvailable()
           await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
             title: snippet.title,
             is_public: snippet.is_public,
@@ -140,7 +141,11 @@ export default {
           })
           this.touchLastSaved()
         } catch (e) {
-          this.$notifier.error500()
+          if (e.response && e.response.status === 422) {
+            this.validationSnippet = e.response.data.errors
+          } else {
+            this.$notifier.error500()
+          }
         }
       }, 1000),
     },
@@ -178,14 +183,6 @@ export default {
       const previousStep = this.previousStep
       this.deleteStep(step)
       this.goToStep(previousStep || this.firstStep)
-    },
-    async titleAvailable() {
-      const response = await this.$axios.$get(
-        `snippets/titleAvailable?title=${this.snippet.title}`
-      )
-      if (!response.data.available) {
-        this.$notifier.warn({ message: 'Title is already taken' })
-      }
     },
   },
   middleware: ['verified'],

@@ -2,6 +2,7 @@ import { orderBy as _orderBy, clone as _clone } from 'lodash'
 
 export const state = () => ({
   snippet: {},
+  validation: {},
   steps: [],
 })
 
@@ -12,13 +13,20 @@ export const getters = {
   steps(state) {
     return state.steps
   },
+  validation(state) {
+    return state.validation
+  },
 }
 
 export const mutations = {
-  SET_SNIPPET(state, snippet) {
-    state.snippet = snippet.data.data
-    state.steps = snippet.data.data.steps.data
+  SET_SNIPPET(state, { snippet, steps }) {
+    state.snippet = snippet
+    state.steps = steps
   },
+  SET_VALIDATION(state, validation) {
+    state.validation = validation
+  },
+
   UPDATE_SNIPPET_VALUE(state, { key, value }) {
     state.snippet = { ...state.snippet, [key]: value }
   },
@@ -47,7 +55,13 @@ export const mutations = {
 export const actions = {
   async getSnippet({ commit, state }, snippetUuid) {
     const snippet = await this.$axios.get(`snippets/${snippetUuid}`)
-    commit('SET_SNIPPET', snippet)
+    commit('SET_SNIPPET', {
+      snippet: snippet.data.data,
+      steps: snippet.data.data.steps.data,
+    })
+  },
+  setValidation({ commit }, validation) {
+    commit('SET_VALIDATION', validation)
   },
   updateSnippetProperty({ commit }, { key, value }) {
     commit('UPDATE_SNIPPET_VALUE', { key, value })
