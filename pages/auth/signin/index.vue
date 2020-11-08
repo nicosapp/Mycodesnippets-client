@@ -92,7 +92,7 @@ export default {
     async signin() {
       // console.log(this.form)
       try {
-        await this.$axios.$get('sanctum/csrf-cookie')
+        await this.$axios.$get(`${process.env.appUrl}/sanctum/csrf-cookie`)
         await this.$auth.loginWith('local', { data: this.form })
         this.$router.push({ name: 'dashboard' })
         this.validation = {}

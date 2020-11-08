@@ -71,15 +71,20 @@ export default {
 
   // Auth module configuration
   auth: {
+    redirect: {
+      login: false,
+      home: false,
+      logout: '/auth/signin',
+    },
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: '/auth/signin',
+            url: '/login',
             method: 'post',
           },
           logout: {
-            url: '/auth/signout',
+            url: '/logout',
             method: 'post',
           },
           user: {
@@ -98,6 +103,10 @@ export default {
   axios: {
     credentials: true,
     baseURL: env.parsed.API_URL,
+  },
+
+  env: {
+    appUrl: env.parsed.APP_URL,
   },
 
   // Vuetify module configuration (https://go.nuxtjs.dev/config-vuetify)
