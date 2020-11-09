@@ -1,8 +1,14 @@
 <template>
   <div>
+    <StepsNavigationShortcut class="mb-4" />
     <div>
-      <div class="mb-4 d-flex align-items">
-        <h2><v-icon class="mr-2">mdi-table-of-contents</v-icon>Steps</h2>
+      <div class="d-flex align-items">
+        <h2>
+          <v-btn icon @click="open = !open">
+            <v-icon class="mr-2">mdi-table-of-contents</v-icon>
+          </v-btn>
+          Steps
+        </h2>
         <v-spacer></v-spacer>
         <template v-if="editor">
           <v-btn icon :disabled="!previousStep" @click="swapTo('previous')">
@@ -13,44 +19,33 @@
           </v-btn>
         </template>
       </div>
-      <div class="d-flex">
-        <div class="flex-grow-1">
-          <ul style="list-style: none" class="mb-8">
-            <li
-              v-for="(step, index) in orderedStepsAsc"
-              :key="step.uuid"
-              class="mb-1"
-            >
-              <nuxt-link
-                :to="{
-                  query: {
-                    step: step.uuid,
-                  },
-                }"
-                class="text-decoration-none"
-                :class="{ 'font-weight-bold': currentStep.uuid === step.uuid }"
+      <v-slide-x-transition>
+        <div v-if="open" class="d-flex">
+          <div class="flex-grow-1">
+            <ul style="list-style: none">
+              <li
+                v-for="(step, index) in orderedStepsAsc"
+                :key="step.uuid"
+                class="mb-1"
               >
-                {{ index + 1 }}. {{ step.title || 'Untitled step' }}
-              </nuxt-link>
-            </li>
-          </ul>
+                <nuxt-link
+                  :to="{
+                    query: {
+                      step: step.uuid,
+                    },
+                  }"
+                  class="text-decoration-none"
+                  :class="{
+                    'font-weight-bold': currentStep.uuid === step.uuid,
+                  }"
+                >
+                  {{ index + 1 }}. {{ step.title || 'Untitled step' }}
+                </nuxt-link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="d-none d-md-block">
-      Use
-      <span class="font-weight-medium grey lighten-2 px-2 py-1 rounded"
-        >Ctrl</span
-      >
-      +
-      <span class="font-weight-medium grey lighten-2 px-2 py-1 rounded"
-        >Shift</span
-      >
-      +
-      <span class="font-weight-medium grey lighten-2 px-2 py-1 rounded"
-        >left or right</span
-      >
-      on your keyboard to navigate between steps
+      </v-slide-x-transition>
     </div>
   </div>
 </template>
@@ -66,6 +61,11 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  data() {
+    return {
+      open: true,
+    }
   },
   methods: {
     swapTo(direction) {

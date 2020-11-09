@@ -7,6 +7,7 @@
       placeholder="Snippet title"
       filled
       clearable
+      :dense="$vuetify.breakpoint.mobile"
       class="flex-grow-1 mt-2"
       clear-icon="mdi-close-circle"
       append-icon="mdi-magnify"

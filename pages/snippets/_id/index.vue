@@ -1,6 +1,7 @@
 <template>
   <v-container dark>
-    <v-row justify-sm="center" justify-md="start">
+    <LoadingCircular v-if="!snippet.title" />
+    <v-row v-else justify-sm="center" justify-md="start">
       <v-col cols="12" md="8">
         <div class="mb-3">
           <v-btn
@@ -34,7 +35,8 @@
           </StepNavigationButton>
         </div>
         <div>
-          <StepMarkdownPrism :value="currentStep.body" />
+          <LoadingCircular v-if="!source" />
+          <StepMarkdownPrism v-else :value="source" />
         </div>
       </v-col>
       <v-col v-if="!$vuetify.breakpoint.mobile" cols="12" md="4">
@@ -53,11 +55,14 @@ export default {
   layout: 'snippetView',
   mixins: [browseSnippet, drawerRight],
   data() {
-    return {}
+    return {
+      source: null,
+    }
   },
-  mounted() {
+  async mounted() {
     this.$store.dispatch('bottomBar/setActive', 'create')
-    this.getSnippet(this.$route.params.id)
+    await this.getSnippet(this.$route.params.id)
+    this.source = this.currentStep.body
   },
   head() {
     return {

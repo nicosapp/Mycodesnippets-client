@@ -1,6 +1,7 @@
 <template>
   <v-container dark class="pt-0">
-    <v-row class="pt-0" justify-sm="center" justify-md="start">
+    <LoadingCircular v-if="!snippet.title" />
+    <v-row v-else class="pt-0" justify-sm="center" justify-md="start">
       <v-col class="pt-0" cols="12" md="8">
         <v-form>
           <div

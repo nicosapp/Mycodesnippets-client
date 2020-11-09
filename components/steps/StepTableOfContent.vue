@@ -1,9 +1,26 @@
 <template>
   <div class="step-toc">
-    <h2><v-icon class="mr-2">mdi-table-of-contents</v-icon>Table of content</h2>
-    <div id="toc-step"></div>
+    <h2>
+      <v-btn icon @click="open = !open">
+        <v-icon class="mr-2">mdi-table-of-contents</v-icon>
+      </v-btn>
+      Table of content
+    </h2>
+    <v-slide-x-transition>
+      <div v-show="open" id="toc-step"></div>
+    </v-slide-x-transition>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      open: true,
+    }
+  },
+}
+</script>
 
 <style lang="scss">
 @import '@/assets/styles/palette';
