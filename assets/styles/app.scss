@@ -15,6 +15,15 @@ a {
     content: none !important;
   }
 }
+.v-tabs-bar--is-mobile .v-slide-group__prev--disabled {
+  display: none !important;
+}
+.v-app-bar {
+  .row,
+  .col {
+    padding: 0;
+  }
+}
 .font-header {
   font-family: 'Staatliches', cursive;
 }

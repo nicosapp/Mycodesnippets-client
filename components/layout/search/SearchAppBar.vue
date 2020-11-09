@@ -26,6 +26,9 @@
 <script>
 import searchState from '@/mixins/search/search'
 import SearchChip from '@/components/layout/search/SearchChip'
+
+import { debounce as _debounce } from 'lodash'
+
 export default {
   components: {
     SearchChip,
@@ -33,6 +36,13 @@ export default {
   mixins: [searchState],
   data() {
     return {}
+  },
+  watch: {
+    searchText: {
+      handler: _debounce(async function (value) {
+        await this.getSnippets()
+      }, 500),
+    },
   },
   methods: {
     enter(e) {

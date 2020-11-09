@@ -1,33 +1,37 @@
 <template>
-  <v-app-bar class="px-md-6" :height="72" :clipped-left="false" fixed app>
-    <DeleteSnippetButton :snippet="snippet" @deleted="handleSnippetDeleted">
-      <v-icon>mdi-close-box</v-icon>
-    </DeleteSnippetButton>
-    <v-spacer />
-    <v-text-field
-      :value="snippet.title"
-      hide-details="auto"
-      placeholder="Snippet title"
-      filled
-      clearable
-      :append-icon="icon"
-      :color="color"
-      class="flex-grow-1"
-      clear-icon="mdi-close-circle"
-      @input="changeSnippetProperty('title', $event)"
-    ></v-text-field>
-    <v-spacer />
-    <v-btn
-      icon
-      :to="{
-        name: 'snippets-id',
-        params: { id: this.$route.params.id },
-        query: { step: currentStep.uuid },
-      }"
-    >
-      <v-icon>mdi-eye</v-icon>
-    </v-btn>
-  </v-app-bar>
+  <AppBarTemplate>
+    <template v-slot:left>
+      <DeleteSnippetButton :snippet="snippet" @deleted="handleSnippetDeleted">
+        <v-icon>mdi-close-box</v-icon>
+      </DeleteSnippetButton>
+    </template>
+    <template v-slot:middle>
+      <v-text-field
+        :value="snippet.title"
+        hide-details="auto"
+        placeholder="Snippet title"
+        filled
+        clearable
+        :append-icon="icon"
+        :color="color"
+        class="flex-grow-1"
+        clear-icon="mdi-close-circle"
+        @input="changeSnippetProperty('title', $event)"
+      ></v-text-field>
+    </template>
+    <template v-slot:right>
+      <v-btn
+        icon
+        :to="{
+          name: 'snippets-id',
+          params: { id: $route.params.id },
+          query: { step: currentStep.uuid },
+        }"
+      >
+        <v-icon>mdi-eye</v-icon>
+      </v-btn>
+    </template>
+  </AppBarTemplate>
 </template>
 
 <script>

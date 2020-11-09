@@ -81,7 +81,10 @@
                 />
               </v-tab-item>
               <v-tab-item value="tab-preview">
-                <StepMarkdown :value="currentStep.body" :trigger="editorTab" />
+                <StepMarkdownTest
+                  :value="currentStep.body"
+                  :trigger="editorTab"
+                />
               </v-tab-item>
             </v-tabs-items>
           </v-tabs>
@@ -90,6 +93,9 @@
       <v-col v-if="!$vuetify.breakpoint.mobile" cols="12" md="4">
         <div class="ml-4">
           <StepsList :editor="true" class="mb-4" />
+        </div>
+        <div>
+          <div id="toc-step"></div>
         </div>
       </v-col>
     </v-row>
@@ -128,16 +134,12 @@ export default {
   },
 
   watch: {
-    snippet: {
-      deep: true,
-      handler: _debounce(async function (snippet, oldSnippet) {
-        console.log(snippet, oldSnippet)
+    'snippet.title': {
+      handler: _debounce(async function (title) {
         this.validationSnippet = {}
         try {
           await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
-            title: snippet.title,
-            is_public: snippet.is_public,
-            description: snippet.description,
+            title,
           })
           this.touchLastSaved()
         } catch (e) {
@@ -146,6 +148,20 @@ export default {
           } else {
             this.$notifier.error500()
           }
+        }
+      }, 1000),
+    },
+    snippet: {
+      deep: true,
+      handler: _debounce(async function (snippet) {
+        try {
+          await this.$axios.$patch(`snippets/${this.snippet.uuid}`, {
+            is_public: snippet.is_public,
+            description: snippet.description,
+          })
+          this.touchLastSaved()
+        } catch (e) {
+          this.$notifier.error500()
         }
       }, 1000),
     },

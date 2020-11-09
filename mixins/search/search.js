@@ -22,7 +22,6 @@ export default {
         return this.isPublicValue
       },
       set(value) {
-        console.log(value)
         this.setFilters({ isPublic: value })
       },
     },
