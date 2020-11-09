@@ -59,6 +59,13 @@ export default {
       source: null,
     }
   },
+  watch: {
+    'currentStep.body': {
+      handler(body) {
+        this.source = body
+      },
+    },
+  },
   async mounted() {
     this.$store.dispatch('bottomBar/setActive', 'create')
     await this.getSnippet(this.$route.params.id)
