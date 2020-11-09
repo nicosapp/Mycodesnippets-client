@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="mx-2" icon :color="color" @click="dialog">
+  <v-btn icon :color="color" @click="dialog">
     <slot />
   </v-btn>
 </template>

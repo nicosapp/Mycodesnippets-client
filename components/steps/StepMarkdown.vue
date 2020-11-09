@@ -29,11 +29,6 @@ export default {
       required: false,
       default: '',
     },
-    trigger: {
-      type: [String, Boolean],
-      required: false,
-      default: '',
-    },
   },
   data() {
     return {

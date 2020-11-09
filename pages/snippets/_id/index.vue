@@ -34,11 +34,12 @@
           </StepNavigationButton>
         </div>
         <div>
-          <StepMarkdown :value="currentStep.body" />
+          <StepMarkdownPrism :value="currentStep.body" />
         </div>
       </v-col>
       <v-col v-if="!$vuetify.breakpoint.mobile" cols="12" md="4">
-        <StepsList />
+        <StepsList class="mb-4" />
+        <StepTableOfContent />
       </v-col>
     </v-row>
   </v-container>
@@ -47,14 +48,8 @@
 <script>
 import browseSnippet from '@/mixins/snippets/snippet'
 import drawerRight from '@/mixins/navigation/drawerRight'
-import StepsList from './edit/components/StepsList'
-import StepNavigationButton from './edit/components/StepNavigationButton'
 
 export default {
-  components: {
-    StepsList,
-    StepNavigationButton,
-  },
   layout: 'snippetView',
   mixins: [browseSnippet, drawerRight],
   data() {

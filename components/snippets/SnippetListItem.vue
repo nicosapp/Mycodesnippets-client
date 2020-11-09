@@ -38,12 +38,7 @@
 </template>
 
 <script>
-import DeleteSnippetButton from '@/pages/snippets/_id/edit/components/DeleteSnippetButton'
-
 export default {
-  components: {
-    DeleteSnippetButton,
-  },
   props: {
     snippet: {
       required: true,

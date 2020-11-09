@@ -11,6 +11,7 @@
         hide-details="auto"
         placeholder="Snippet title"
         filled
+        :dense="$vuetify.breakpoint.mobile"
         clearable
         :append-icon="icon"
         :color="color"
@@ -36,11 +37,7 @@
 
 <script>
 import browseSnippet from '@/mixins/snippets/snippet'
-import DeleteSnippetButton from '@/pages/snippets/_id/edit/components/DeleteSnippetButton'
 export default {
-  components: {
-    DeleteSnippetButton,
-  },
   mixins: [browseSnippet],
   data() {
     return {}

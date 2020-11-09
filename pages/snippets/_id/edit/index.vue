@@ -81,7 +81,7 @@
                 />
               </v-tab-item>
               <v-tab-item value="tab-preview">
-                <StepMarkdownTest
+                <StepMarkdownPrism
                   :value="currentStep.body"
                   :trigger="editorTab"
                 />
@@ -90,13 +90,9 @@
           </v-tabs>
         </v-form>
       </v-col>
-      <v-col v-if="!$vuetify.breakpoint.mobile" cols="12" md="4">
-        <div class="ml-4">
-          <StepsList :editor="true" class="mb-4" />
-        </div>
-        <div>
-          <div id="toc-step"></div>
-        </div>
+      <v-col v-if="!$vuetify.breakpoint.mobile" cols="12" md="4" class="pl-4">
+        <StepsList :editor="true" class="mb-4" />
+        <StepTableOfContent />
       </v-col>
     </v-row>
   </v-container>
@@ -111,18 +107,8 @@ import moment from 'moment'
 import browseSnippet from '@/mixins/snippets/snippet'
 import drawerRight from '@/mixins/navigation/drawerRight'
 import drawerLeft from '@/mixins/navigation/drawerLeft'
-import StepsList from './components/StepsList'
-import StepNavigationButton from './components/StepNavigationButton'
-import AddStepButton from './components/AddStepButton'
-import DeleteStepButton from './components/DeleteStepButton'
 
 export default {
-  components: {
-    StepsList,
-    StepNavigationButton,
-    AddStepButton,
-    DeleteStepButton,
-  },
   layout: 'snippetEdit',
 
   mixins: [browseSnippet, drawerRight, drawerLeft],
