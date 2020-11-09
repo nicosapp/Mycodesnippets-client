@@ -59,12 +59,14 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/node_modules/prismjs/themes/prism-tomorrow.css';
+@import '@/assets/styles/palette';
 .v-application code {
   color: unset;
   background: unset;
   font-weight: 500;
 }
-@import '@/node_modules/prismjs/themes/prism-tomorrow.css';
+
 .markdown-for-step {
   pre[class*='language-'] {
     border-radius: 0.3rem;
@@ -89,9 +91,9 @@ export default {
   blockquote {
     padding: 0.4em 0.6em;
     margin: 0.5em 1em;
-    border-left: solid 0.4em var(--v-primary-base);
-    background-color: rgba(var(--color-primary-rgb), 0.5);
-    color: white;
+    border-left: solid 0.4em $color-primary;
+    background-color: rgba($color-primary, 0.3);
+    color: $color-primary;
     border-radius: 0.3em;
     p {
       margin: 0;
