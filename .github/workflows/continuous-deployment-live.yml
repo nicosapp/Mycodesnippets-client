@@ -39,7 +39,7 @@ jobs:
             cd ${{ secrets.REMOTE_TARGET_HOME }}/client
             cp ../.env.client ./.env
             npm install
-            npm run generate
+            npm run build
             mkdir -p ${{ secrets.REMOTE_TARGET_WWW }}client/
             cp -r ./dist/* ${{ secrets.REMOTE_TARGET_WWW }}client/
           host: ${{ secrets.REMOTE_HOST }}
