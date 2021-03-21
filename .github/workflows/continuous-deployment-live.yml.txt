@@ -13,36 +13,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Create app archive
-        run: |
-          mkdir ../client
-          cp -TR . ../client
-          zip -r client.zip ../client/
-      - name: SSH Deploy App
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          port: 22
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "client.zip"
-          target: ${{ secrets.REMOTE_TARGET_HOME }}
-      - name: SSH Install Dep
+      - name: SSH Create client dir
         uses: fifsky/ssh-action@master
         with:
           command: |
             cd ${{ secrets.REMOTE_TARGET_HOME }}
-            unzip client.zip
-            cd ./client
+            rm -rf ./client
+            mkdir -p ./client
+          host: ${{ secrets.REMOTE_HOST }}
+          user: ${{ secrets.REMOTE_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+      - name: SSH Deploy App
+        uses: easingthemes/ssh-deploy@v2.1.1
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: '-rltgoDzvO --delete'
+          SOURCE: './'
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET_HOME }}client
+      - name: SSH Install Dep
+        uses: fifsky/ssh-action@master
+        with:
+          command: |
+            cd ${{ secrets.REMOTE_TARGET_HOME }}/client
             cp ../.env.client ./.env
             npm install
             npm run build
-            rm -rf  ${{ secrets.REMOTE_TARGET_WWW }}client/*
             mkdir -p ${{ secrets.REMOTE_TARGET_WWW }}client/
             cp -r ./dist/* ${{ secrets.REMOTE_TARGET_WWW }}client/
-            cd ../ 
-            rm -rf client client.zip
-
           host: ${{ secrets.REMOTE_HOST }}
           user: ${{ secrets.REMOTE_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
